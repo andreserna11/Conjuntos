@@ -5,11 +5,14 @@
  */
 package conjuntos;
 
+import co.com.listas.Lista;
+import co.com.listas.ListaEstructura;
 import java.util.Scanner;
 
 public class Conjunto {
 
     public static void main(String[] args) throws Exception {
+        Lista lista = new ListaEstructura();
         while (true) {
             Scanner in = new Scanner(System.in);
             System.out.println("Menú");
@@ -40,14 +43,14 @@ public class Conjunto {
                         switch (opcion1.nextInt()) {
                             case 1:
                                 try {
-
+                                    lista.getCantidadElementos();
                                 } catch (Exception e) {
                                     System.out.println(e.getMessage());
                                 }
                                 break;
                             case 2:
                                 try {
-
+                                    lista.recorrerLista();
                                 } catch (Exception e) {
                                     System.out.println(e.getMessage());
                                 }
@@ -89,14 +92,20 @@ public class Conjunto {
                                 break;
                             case 8:
                                 try {
-
+                                    Scanner nodo = new Scanner(System.in);
+                                    System.out.println("Ingrese nodo");
+                                    Character datoNodo = new Character(nodo.next().charAt(0));
+                                    lista.insertarNodo(datoNodo);
                                 } catch (Exception e) {
                                     System.out.println(e.getMessage());
                                 }
                                 break;
                             case 9:
                                 try {
-
+                                    Scanner nodo = new Scanner(System.in);
+                                    System.out.println("Ingrese nodo");
+                                    Character datoNodo = new Character(nodo.next().charAt(0));
+                                    lista.eliminarNodo(datoNodo);
                                 } catch (Exception e) {
                                     System.out.println(e.getMessage());
                                 }

@@ -11,36 +11,36 @@ package co.com.entidades;
  */
 public class Nodo {
     
-    private Nodo ligaLista;
-    private Boolean isRaiz;
+    private Nodo ligaAnterior;
+    private Boolean isPadre;
     private Character dato;
-    private Nodo liga;
+    private Nodo ligaSiguiente;
     
     public Nodo(){
         
     }
 
-    public Nodo(Nodo ligaLista, Boolean isRaiz, Character dato, Nodo liga) {
-        this.ligaLista = ligaLista;
-        this.isRaiz = isRaiz;
+    public Nodo(Nodo ligaAnterior, Boolean isPadre, Character dato, Nodo ligaSiguiente) {
+        this.ligaAnterior = ligaAnterior;
+        this.isPadre = isPadre;
         this.dato = dato;
-        this.liga = liga;
+        this.ligaSiguiente = ligaSiguiente;
     }
 
-    public Nodo getLigaLista() {
-        return ligaLista;
+    public Nodo getLigaAnterior() {
+        return ligaAnterior;
     }
 
-    public void setLigaLista(Nodo ligaLista) {
-        this.ligaLista = ligaLista;
+    public void setLigaAnterior(Nodo ligaAnterior) {
+        this.ligaAnterior = ligaAnterior;
     }
 
-    public Boolean getIsRaiz() {
-        return isRaiz;
+    public Boolean getIsPadre() {
+        return isPadre;
     }
 
-    public void setIsRaiz(Boolean isRaiz) {
-        this.isRaiz = isRaiz;
+    public void setIsPadre(Boolean isPadre) {
+        this.isPadre = isPadre;
     }
 
     public Character getDato() {
@@ -51,13 +51,14 @@ public class Nodo {
         this.dato = dato;
     }
 
-    public Nodo getLiga() {
-        return liga;
+    public Nodo getLigaSiguiente() {
+        return ligaSiguiente;
     }
 
-    public void setLiga(Nodo liga) {
-        this.liga = liga;
+    public void setLigaSiguiente(Nodo ligaSiguiente) {
+        this.ligaSiguiente = ligaSiguiente;
     }
-    
+
+
     
 }
