@@ -7,6 +7,8 @@ package conjuntos;
 
 import co.com.listas.Lista;
 import co.com.listas.ListaEstructura;
+
+import java.util.Arrays;
 import java.util.Scanner;
 
 public class Conjunto {
