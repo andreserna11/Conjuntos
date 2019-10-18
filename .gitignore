@@ -2,3 +2,5 @@
 out
 Conjuntos.iml
 /nbproject/private/
+build/
+*.class
