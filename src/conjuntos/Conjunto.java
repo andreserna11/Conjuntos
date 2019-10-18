@@ -17,12 +17,9 @@ public class Conjunto {
         ConjuntoLista conjuntoLista = new ConjuntoLista();
         for (int i = 1; i <= 5; i++) conjuntoLista.agregar(i);
         conjuntoLista.mostrar();
-        conjuntoLista.borrar(3);
+        conjuntoLista.vaciar();
         conjuntoLista.mostrar();
-        conjuntoLista.borrar(5);
+        for (int i = 1; i <= 5; i++) conjuntoLista.agregar(i);
         conjuntoLista.mostrar();
-        conjuntoLista.borrar(1);
-        conjuntoLista.mostrar();
-        
     }
 }
