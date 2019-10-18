@@ -14,12 +14,18 @@ import co.com.vector.entidades.ConjuntoVector;
 public class Conjunto {
 
     public static void main(String[] args) throws Exception {
-        ConjuntoLista conjuntoLista = new ConjuntoLista();
-        for (int i = 1; i <= 10; i++) conjuntoLista.agregar(i);
-        System.out.println("posicion \"1\": " + conjuntoLista.posicion(1));
-        System.out.println("posicion \"5\": " + conjuntoLista.posicion(5));
-        System.out.println("posicion \"7\": " + conjuntoLista.posicion(7));
-        System.out.println("posicion \"10\": " + conjuntoLista.posicion(10));
-        System.out.println("posicion \"27\": " + conjuntoLista.posicion(27));
+        ConjuntoLista conjuntoLista1 = new ConjuntoLista();
+        ConjuntoLista conjuntoLista2 = new ConjuntoLista();
+        ConjuntoLista conjuntoLista3 = new ConjuntoLista();
+        for (int i = 1; i <= 10; i++) conjuntoLista1.agregar(i);
+        for (int i = 1; i <= 15; i++) conjuntoLista2.agregar(i);
+        for (int i = 1; i <= 10; i++) conjuntoLista3.agregar(i);
+        System.out.println("comparacion 1 y 2: " + conjuntoLista1.compararDimensionConjuntos(conjuntoLista2));
+        System.out.println("comparacion 2 y 1: " + conjuntoLista2.compararDimensionConjuntos(conjuntoLista1));
+        System.out.println("comparacion 2 y 3: " + conjuntoLista2.compararDimensionConjuntos(conjuntoLista3));
+        System.out.println("comparacion 3 y 2: " + conjuntoLista3.compararDimensionConjuntos(conjuntoLista2));
+        System.out.println("comparacion 1 y 3: " + conjuntoLista1.compararDimensionConjuntos(conjuntoLista3));
+        System.out.println("comparacion 3 y 1: " + conjuntoLista3.compararDimensionConjuntos(conjuntoLista1));
+        
     }
 }
