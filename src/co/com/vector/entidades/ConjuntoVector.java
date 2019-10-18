@@ -31,36 +31,44 @@ public class ConjuntoVector implements IConjunto {
         this.vec = vec;
     }
 
-    public Integer getDato(Integer posicion){
+    public Integer getDato(Integer posicion) {
         return getVec()[posicion];
     }
 
-    public void setDato(Integer dato, Integer posicion){
+    public void setDato(Integer dato, Integer posicion) {
         getVec()[posicion] = dato;
     }
 
     @Override
     public void pertenece(Integer dato) {
-        if(elementoExiste(getVec(), dato))
+        if (elementoExiste(getVec(), dato)) {
             System.out.print("El elemento pertenece al conjunto");
-        else
+        } else {
             System.out.print("El elemento NO pertenece al conjunto");
+        }
     }
 
     @Override
     public Boolean subconjunto(IConjunto conjunto) {
-        return null;
+        ConjuntoVector conjuntoB = (ConjuntoVector) conjunto;
+        for (int i = 0; i < conjuntoB.getCantidad() - 1; i++) {
+            if (!elementoExiste(vec, conjuntoB.getDato(i))) {
+                return false;
+            }
+        }
+        return true;
     }
 
     @Override
     public Boolean esVacio() {
-        if(getVec() != null && getCantidad() == 0)
+        if (getVec() != null && getCantidad() == 0) {
             return true;
+        }
         return false;
     }
 
     @Override
-    public IConjunto union(IConjunto conjunto){
+    public IConjunto union(IConjunto conjunto) {
         ConjuntoVector conjuntoB = (ConjuntoVector) conjunto;
         Integer[] vectorResult = new Integer[0];
         ConjuntoVector result = new ConjuntoVector(0, vectorResult);
@@ -68,15 +76,17 @@ public class ConjuntoVector implements IConjunto {
         for (int i = 0; i < getCantidad(); i++) {
             Integer elemento = getVec()[i];
             Boolean existe = elementoExiste(result.getVec(), elemento);
-            if(!existe)
+            if (!existe) {
                 result.agregar(elemento);
+            }
         }
 
         for (int i = 0; i < conjuntoB.getCantidad(); i++) {
             Integer elemento = conjuntoB.getVec()[i];
             Boolean existe = elementoExiste(result.getVec(), elemento);
-            if(!existe)
+            if (!existe) {
                 result.agregar(elemento);
+            }
         }
 
         return result;
@@ -89,17 +99,19 @@ public class ConjuntoVector implements IConjunto {
         Integer[] vectorResult = new Integer[0];
         ConjuntoVector result = new ConjuntoVector(0, vectorResult);
 
-        if(conjuntoMayor.equals(0)){
+        if (conjuntoMayor.equals(0)) {
             for (int i = 0; i < conjuntoB.getCantidad(); i++) {
                 Integer elementoB = conjuntoB.getVec()[i];
-                if(elementoExiste(getVec(), elementoB))
+                if (elementoExiste(getVec(), elementoB)) {
                     result.agregar(elementoB);
+                }
             }
-        }else{
+        } else {
             for (int i = 0; i < getCantidad(); i++) {
                 Integer elementoB = getVec()[i];
-                if(elementoExiste(conjuntoB.getVec(), elementoB))
+                if (elementoExiste(conjuntoB.getVec(), elementoB)) {
                     result.agregar(elementoB);
+                }
             }
         }
         return result;
@@ -134,8 +146,9 @@ public class ConjuntoVector implements IConjunto {
         ConjuntoVector result = new ConjuntoVector(0, vectorResult);
         for (int i = 0; i < getCantidad() - 1; i++) {
             Integer elemento = getVec()[i];
-            if(!elementoExiste(conjuntoB.getVec(), elemento))
+            if (!elementoExiste(conjuntoB.getVec(), elemento)) {
                 result.agregar(elemento);
+            }
         }
         return result;
     }
@@ -147,28 +160,32 @@ public class ConjuntoVector implements IConjunto {
 
         for (int i = 0; i < conjuntoB.getCantidad(); i++) {
             Integer elemento = conjuntoB.getVec()[i];
-            if(!elementoExiste(getVec(), elemento))
+            if (!elementoExiste(getVec(), elemento)) {
                 result.agregar(elemento);
+            }
         }
         return result;
     }
 
     /**
      * @param conjuntoB Conjunto a comparar con el conjunto actual
-     * @return 0 si el conjuntoA es mas grande que el conjuntoB, 1 en caso contrario*/
+     * @return 0 si el conjuntoA es mas grande que el conjuntoB, 1 en caso contrario
+     */
     @Override
-    public Integer compararDimensionConjuntos(IConjunto conjuntoB){
+    public Integer compararDimensionConjuntos(IConjunto conjuntoB) {
         return getCantidad() > ((ConjuntoVector) conjuntoB).getCantidad() ? 0 : 1;
     }
 
     /**
      * @param vec Vector de enteros en el que se va a buscar
      * @param elemento Elemento que se va a buscar en el vector
-     * @return true si el elemento existe en el vector, false en caso contrario*/
-    private Boolean elementoExiste(Integer[] vec, Integer elemento){
+     * @return true si el elemento existe en el vector, false en caso contrario
+     */
+    private Boolean elementoExiste(Integer[] vec, Integer elemento) {
         for (int i = 0; i < vec.length; i++) {
-            if(vec[i] == elemento)
+            if (vec[i] == elemento) {
                 return true;
+            }
         }
         return false;
     }
