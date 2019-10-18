@@ -15,12 +15,11 @@ public class Conjunto {
 
     public static void main(String[] args) throws Exception {
         ConjuntoLista conjuntoLista = new ConjuntoLista();
-        ConjuntoLista conjuntoLista2 = new ConjuntoLista();
-        for (int i = 3; i <= 24; i+=3) conjuntoLista.agregar(i);
-        for (int i = 2; i <= 24; i+=2) conjuntoLista2.agregar(i);
-        conjuntoLista.mostrar();
-        ((ConjuntoLista) conjuntoLista.diferencia(conjuntoLista2)).mostrar();
-        conjuntoLista2.mostrar();
-        ((ConjuntoLista) conjuntoLista2.diferencia(conjuntoLista)).mostrar();
+        for (int i = 1; i <= 10; i++) conjuntoLista.agregar(i);
+        System.out.println("posicion \"1\": " + conjuntoLista.posicion(1));
+        System.out.println("posicion \"5\": " + conjuntoLista.posicion(5));
+        System.out.println("posicion \"7\": " + conjuntoLista.posicion(7));
+        System.out.println("posicion \"10\": " + conjuntoLista.posicion(10));
+        System.out.println("posicion \"27\": " + conjuntoLista.posicion(27));
     }
 }
