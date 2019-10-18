@@ -14,7 +14,7 @@ public interface IConjunto {
 
     IConjunto interseccion(IConjunto conjunto);
 
-    IConjunto igualdad(IConjunto conjunto);
+    Boolean igualdad(IConjunto conjunto);
 
     IConjunto complemento();
 
@@ -29,4 +29,6 @@ public interface IConjunto {
     IConjunto diferenciaSimetrica(IConjunto conjunto);
 
     Integer compararDimensionConjuntos(ConjuntoVector conjuntoB);
+    
+    Integer posicion(Integer dato) throws Exception;    
 }
