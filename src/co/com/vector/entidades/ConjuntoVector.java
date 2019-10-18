@@ -106,11 +106,6 @@ public class ConjuntoVector implements IConjunto {
     }
 
     @Override
-    public IConjunto igualdad(IConjunto conjunto) {
-        return null;
-    }
-
-    @Override
     public IConjunto complemento() {
         return null;
     }
@@ -124,11 +119,6 @@ public class ConjuntoVector implements IConjunto {
         newVector[getCantidad()] = dato;
         setVec(newVector);
         setCantidad(getCantidad() + 1);
-    }
-
-    @Override
-    public void borrar(Integer dato) {
-
     }
 
     @Override
@@ -181,5 +171,45 @@ public class ConjuntoVector implements IConjunto {
                 return true;
         }
         return false;
+    }
+
+    @Override
+    public Integer posicion(Integer dato) throws Exception {
+        if (elementoExiste(vec, dato)) {
+            for (int i = 0; i < getCantidad() - 1; i++) {
+                if (getVec()[i] == dato) {
+                    return i;
+                }
+            }
+        }
+        throw new Exception("El elemento no existe");
+    }
+
+    @Override
+    public void borrar(Integer dato) {
+        Integer[] updateVector = new Integer[getCantidad() - 1];
+        for (int i = 0; i < getCantidad() - 1; i++) {
+            if (getVec()[i] != dato) {
+                updateVector[i] = getVec()[i];
+            }
+        }
+        setVec(updateVector);
+        setCantidad(getCantidad() - 1);
+    }
+
+    @Override
+    public Boolean igualdad(IConjunto conjunto) {
+        ConjuntoVector conjuntoB = (ConjuntoVector) conjunto;
+        if (getCantidad() == conjuntoB.getCantidad()) {
+            for (int i = 0; i < getCantidad() - 1; i++) {
+                if (elementoExiste(conjuntoB.getVec(), getVec()[i])) {
+                    continue;
+                } else {
+                    return false;
+
+                }
+            }
+        }
+        return true;
     }
 }
