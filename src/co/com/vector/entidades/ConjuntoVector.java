@@ -1,6 +1,9 @@
 package co.com.vector.entidades;
 
 import co.com.interfaces.IConjunto;
+import conjuntos.Conjunto;
+
+import java.util.Arrays;
 
 public class ConjuntoVector implements IConjunto {
 
@@ -62,18 +65,24 @@ public class ConjuntoVector implements IConjunto {
     }
 
     @Override
-    public IConjunto union(IConjunto conjunto){
+    public IConjunto union(IConjunto conjunto) throws Exception {
         ConjuntoVector conjuntoB = (ConjuntoVector) conjunto;
+        Integer conjuntoMayor = this.compararDimensionConjuntos(conjuntoB);
+        Integer cantidadConjuntoMayor = conjuntoMayor == 1 ? getCantidad() : conjuntoB.getCantidad();
         Integer[] vectorResult = new Integer[0];
         ConjuntoVector result = new ConjuntoVector(0, vectorResult);
 
         for (int i = 0; i < getCantidad(); i++) {
             Integer elemento = getVec()[i];
 <<<<<<< HEAD
+<<<<<<< HEAD
             Boolean existe = elementoExiste(vectorResult, elemento);
             if (!existe) {
 =======
             Boolean existe = elementoExiste(result.getVec(), elemento);
+=======
+            Boolean existe = elementoExiste(vectorResult, elemento);
+>>>>>>> parent of 1a0e184... Avance
             if(!existe)
 >>>>>>> 1a0e1843a0fe3610692a2b3ac052da3e42aafef3
                 result.agregar(elemento);
@@ -83,10 +92,14 @@ public class ConjuntoVector implements IConjunto {
         for (int i = 0; i < conjuntoB.getCantidad(); i++) {
             Integer elemento = conjuntoB.getVec()[i];
 <<<<<<< HEAD
+<<<<<<< HEAD
             Boolean existe = elementoExiste(vectorResult, elemento);
             if (!existe) {
 =======
             Boolean existe = elementoExiste(result.getVec(), elemento);
+=======
+            Boolean existe = elementoExiste(vectorResult, elemento);
+>>>>>>> parent of 1a0e184... Avance
             if(!existe)
 >>>>>>> 1a0e1843a0fe3610692a2b3ac052da3e42aafef3
                 result.agregar(elemento);
@@ -100,9 +113,8 @@ public class ConjuntoVector implements IConjunto {
     public IConjunto interseccion(IConjunto conjunto) {
         ConjuntoVector conjuntoB = (ConjuntoVector) conjunto;
         Integer conjuntoMayor = this.compararDimensionConjuntos(conjuntoB);
-        Integer[] vectorResult = new Integer[0];
-        ConjuntoVector result = new ConjuntoVector(0, vectorResult);
 
+<<<<<<< HEAD
 <<<<<<< HEAD
         if (conjuntoMayor.equals(1)) {
             for (int i = 0; i < getCantidad(); i++) {
@@ -121,9 +133,16 @@ public class ConjuntoVector implements IConjunto {
                 if(elementoExiste(conjuntoB.getVec(), elementoB))
                     result.agregar(elementoB);
 >>>>>>> 1a0e1843a0fe3610692a2b3ac052da3e42aafef3
+=======
+        if(conjuntoMayor.equals(1)){
+            for (int i = 0; i < getCantidad(); i++) {
+                Integer elemento = getVec()[i];
+
+
+>>>>>>> parent of 1a0e184... Avance
             }
         }
-        return result;
+        return null;
     }
 
     @Override
@@ -151,7 +170,7 @@ public class ConjuntoVector implements IConjunto {
     @Override
     public void agregar(Integer dato) {
         Integer[] newVector = new Integer[getCantidad() + 1];
-        for (int i = 0; i <= getCantidad() - 1; i++) {
+        for (int i = 0; i < getCantidad() - 1; i++) {
             newVector[i] = getVec()[i];
         }
         newVector[getCantidad()] = dato;
@@ -179,28 +198,12 @@ public class ConjuntoVector implements IConjunto {
 
     @Override
     public IConjunto diferencia(IConjunto conjunto) {
-        ConjuntoVector conjuntoB = (ConjuntoVector) conjunto;
-        Integer[] vectorResult = new Integer[0];
-        ConjuntoVector result = new ConjuntoVector(0, vectorResult);
-        for (int i = 0; i < getCantidad() - 1; i++) {
-            Integer elemento = getVec()[i];
-            if(!elementoExiste(conjuntoB.getVec(), elemento))
-                result.agregar(elemento);
-        }
-        return result;
+        return null;
     }
 
     @Override
     public IConjunto diferenciaSimetrica(IConjunto conjunto) {
-        ConjuntoVector conjuntoB = (ConjuntoVector) conjunto;
-        ConjuntoVector result = (ConjuntoVector) diferencia(conjuntoB);
-
-        for (int i = 0; i < conjuntoB.getCantidad(); i++) {
-            Integer elemento = conjuntoB.getVec()[i];
-            if(!elementoExiste(getVec(), elemento))
-                result.agregar(elemento);
-        }
-        return result;
+        return null;
     }
 
     /**
@@ -209,6 +212,7 @@ public class ConjuntoVector implements IConjunto {
      * contrario
      */
     @Override
+<<<<<<< HEAD
 <<<<<<< HEAD
     public Integer compararDimensionConjuntos(ConjuntoVector conjuntoB) {
         return getCantidad() > conjuntoB.getCantidad() ? 0 : 1;
@@ -220,16 +224,21 @@ public class ConjuntoVector implements IConjunto {
 =======
     public Integer compararDimensionConjuntos(IConjunto conjuntoB){
         return getCantidad() > ((ConjuntoVector) conjuntoB).getCantidad() ? 0 : 1;
+=======
+    public Integer compararDimensionConjuntos(ConjuntoVector conjuntoB){
+        return getCantidad() > conjuntoB.getCantidad() ? 0 : 1;
+>>>>>>> parent of 1a0e184... Avance
     }
 
-    /**
-     * @param vec Vector de enteros en el que se va a buscar
-     * @param elemento Elemento que se va a buscar en el vector
-     * @return true si el elemento existe en el vector, false en caso contrario*/
     private Boolean elementoExiste(Integer[] vec, Integer elemento){
+<<<<<<< HEAD
         for (int i = 0; i < vec.length; i++) {
             if(vec[i] == elemento)
 >>>>>>> 1a0e1843a0fe3610692a2b3ac052da3e42aafef3
+=======
+        for (int i = 0; i < vec.length - 1; i++) {
+            if(vec[i].equals(elemento))
+>>>>>>> parent of 1a0e184... Avance
                 return true;
             }
         }
