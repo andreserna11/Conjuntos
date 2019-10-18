@@ -3,9 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package co.com.listas;
+package co.com.listas.entidades;
 
-import co.com.entidades.Nodo;
+import java.util.Arrays;
 
 public class Lista {
 
@@ -26,37 +26,38 @@ public class Lista {
     public void recorrerLista() {
         Nodo aux = this.padre;
         Nodo ant = null;
+        StringBuilder sb = new StringBuilder();
+        int tope = 0;
         while (aux != null) {
             ant = aux;
+            sb.append(ant.getDato());
+            if (aux.getLigaSiguiente() != null)
+                sb.append(",");
             aux = aux.getLigaSiguiente();
-            System.out.print(ant.getDato() +", ");
         }
+        System.out.println(sb.toString());
     }
 
-    public void insertarNodo(Character dato) {
+    public void insertarNodo(Integer dato) {
         if (getPadre() == null) {
-            Nodo nuevoNodo = new Nodo(null, Boolean.TRUE, dato, null);
+            Nodo nuevoNodo = new Nodo(dato, null);
             setPadre(nuevoNodo);
         } else {
             Nodo ant = encontrarUltimo();
-            Nodo nuevoNodo = new Nodo(ant, Boolean.FALSE, dato, null);
+            Nodo nuevoNodo = new Nodo(dato, null);
             ant.setLigaSiguiente(nuevoNodo);
         }
-        System.out.println("Se inserto el nodo correctamente.");
     }
 
-    public void eliminarNodo(Character dato) {
+    public void eliminarNodo(Integer dato) {
         Nodo aux = this.padre;
         Nodo ant = null;
         while (aux != null) {
             if (aux.getDato().equals(dato)) {
-                if (aux.getIsPadre() && aux.getLigaSiguiente() != null) {
+                if (aux == this.padre) {
                     setPadre(aux.getLigaSiguiente());
-                } else if (aux.getIsPadre() && aux.getLigaSiguiente() == null) {
-                    this.padre = null;
                 } else {
                     ant.setLigaSiguiente(aux.getLigaSiguiente());
-                    aux.getLigaSiguiente().setLigaAnterior(ant);
                 }
             }
             ant = aux;
@@ -72,7 +73,7 @@ public class Lista {
             cant += 1;
             aux = aux.getLigaSiguiente();
         }
-        System.out.println("La cantidad de elementos es: " + cant);
+        // System.out.println("La cantidad de elementos es: " + cant);
         return cant;
     }
 
@@ -82,9 +83,37 @@ public class Lista {
         while (aux != null) {
             ant = aux;
             aux = aux.getLigaSiguiente();
-            System.out.println("Nodos -> " + ant.getDato());
+            // System.out.println("Nodos -> " + ant.getDato());
         }
         return ant;
+    }
+
+    public Nodo buscarDato(int dato) {
+        Nodo aux = this.padre;
+        Nodo resultado = null;
+        while (aux != null && resultado == null) {
+            if (aux.getDato() == dato) {
+                resultado = aux;
+            } else {
+                aux = aux.getLigaSiguiente();
+            }
+        }
+        return resultado;
+    }
+
+    public Integer buscarPosicion(int dato) {
+        Nodo aux = this.padre;
+        int resultado = -1;
+        int index = 0;
+        while (aux != null && resultado == -1) {
+            if (aux.getDato() == dato) {
+                resultado = index;
+            } else {
+                aux = aux.getLigaSiguiente();
+                index++;
+            }
+        }
+        return resultado;
     }
 
 }
