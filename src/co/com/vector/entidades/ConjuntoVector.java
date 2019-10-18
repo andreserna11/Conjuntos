@@ -2,32 +2,10 @@ package co.com.vector.entidades;
 
 import co.com.interfaces.IConjunto;
 
-public class ConjuntoVector implements IConjunto {
-
-    private Integer cantidad;
-    private Integer[] vec;
-
-    public ConjuntoVector() {
-    }
+public class ConjuntoVector extends AbstractConjuntoVector implements IConjunto {
 
     public ConjuntoVector(Integer cantidad, Integer[] vec) {
         this.cantidad = cantidad;
-        this.vec = vec;
-    }
-
-    public Integer getCantidad() {
-        return cantidad;
-    }
-
-    public void setCantidad(Integer cantidad) {
-        this.cantidad = cantidad;
-    }
-
-    public Integer[] getVec() {
-        return vec;
-    }
-
-    public void setVec(Integer[] vec) {
         this.vec = vec;
     }
 
