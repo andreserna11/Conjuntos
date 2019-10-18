@@ -28,5 +28,5 @@ public interface IConjunto {
 
     IConjunto diferenciaSimetrica(IConjunto conjunto);
 
-    Integer compararDimensionConjuntos(ConjuntoVector conjuntoB);
+    Integer compararDimensionConjuntos(IConjunto conjuntoB);
 }
