@@ -5,8 +5,10 @@
  */
 package conjuntos;
 
+import co.com.interfaces.IConjunto;
 import co.com.listas.Lista;
 import co.com.listas.ListaEstructura;
+import co.com.vector.entidades.ConjuntoVector;
 
 import java.util.Arrays;
 import java.util.Scanner;
@@ -390,7 +392,5 @@ public class Conjunto {
                     break;
             }
         }*/
-        Integer[] vec = new Integer[0];
-        System.out.print(Arrays.toString(vec));
     }
 }
