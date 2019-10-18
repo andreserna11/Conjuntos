@@ -17,10 +17,14 @@ public class Conjunto {
         ConjuntoLista conjuntoLista = new ConjuntoLista();
         ConjuntoLista conjuntoLista2 = new ConjuntoLista();
         for (int i = 1; i <= 10; i++) conjuntoLista.agregar(i);
-        for (int i = 5; i <= 13; i++) conjuntoLista2.agregar(i);
+        for (int i = 13; i >= 5; i--) conjuntoLista2.agregar(i);
         conjuntoLista.mostrar();
         conjuntoLista2.mostrar();
         ConjuntoLista conjuntoLista3 = (ConjuntoLista) conjuntoLista.union(conjuntoLista2);
+        ConjuntoLista conjuntoLista4 = (ConjuntoLista) conjuntoLista.interseccion(conjuntoLista2);
+        ConjuntoLista conjuntoLista5 = (ConjuntoLista) conjuntoLista2.interseccion(conjuntoLista);
         conjuntoLista3.mostrar();
+        conjuntoLista4.mostrar();
+        conjuntoLista5.mostrar();
     }
 }
