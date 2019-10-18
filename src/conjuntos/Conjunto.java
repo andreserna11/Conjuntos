@@ -14,7 +14,7 @@ import java.util.Scanner;
 public class Conjunto {
 
     public static void main(String[] args) throws Exception {
-        Lista lista = new ListaEstructura();
+        /*Lista lista = new ListaEstructura();
         while (true) {
             Scanner in = new Scanner(System.in);
             System.out.println("Menú");
@@ -389,6 +389,8 @@ public class Conjunto {
                     System.err.println("Opción no válida");
                     break;
             }
-        }
+        }*/
+        Integer[] vec = new Integer[0];
+        System.out.print(Arrays.toString(vec));
     }
 }

@@ -1,5 +1,7 @@
 package co.com.interfaces;
 
+import co.com.vector.entidades.ConjuntoVector;
+
 public interface IConjunto {
 
     void pertenece(Integer dato);
@@ -8,7 +10,7 @@ public interface IConjunto {
 
     Boolean esVacio();
 
-    IConjunto union(IConjunto conjunto);
+    IConjunto union(IConjunto conjunto) throws Exception;
 
     IConjunto interseccion(IConjunto conjunto);
 
@@ -16,7 +18,7 @@ public interface IConjunto {
 
     IConjunto complemento();
 
-    void agregar(Integer dato);
+    void agregar(Integer dato) throws Exception;
 
     void borrar(Integer dato);
 
@@ -25,4 +27,6 @@ public interface IConjunto {
     IConjunto diferencia(IConjunto conjunto);
 
     IConjunto diferenciaSimetrica(IConjunto conjunto);
+
+    Integer compararDimensionConjuntos(ConjuntoVector conjuntoB);
 }
