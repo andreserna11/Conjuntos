@@ -5,6 +5,7 @@
  */
 package conjuntos;
 
+import co.com.interfaces.IConjunto;
 import co.com.utilidades.Utilidades;
 import co.com.vector.entidades.ConjuntoVector;
 import co.com.vector.entidades.ConjuntoVectorUniversal;
@@ -12,7 +13,7 @@ import java.util.Arrays;
 
 public class ConjuntoVectorPrincipal {
     
-    private static final ConjuntoVectorUniversal CONJUNTO_UNIVERSAL = new ConjuntoVectorUniversal();
+    public static final ConjuntoVectorUniversal CONJUNTO_UNIVERSAL = new ConjuntoVectorUniversal();
     private static final ConjuntoVector CONJUNTO_A = crearConjunto(10);
     private static final ConjuntoVector CONJUNTO_B = crearConjunto(5);
 
@@ -34,6 +35,8 @@ public class ConjuntoVectorPrincipal {
         verificarDiferenciaSimetrica();
         System.out.print("\n");
         verificarIgualdad();
+        System.out.print("\n");
+        vectorComplemento();
        
     }
     
@@ -87,5 +90,12 @@ public class ConjuntoVectorPrincipal {
     private static void verificarIgualdad(){
         System.out.println("A IGUAL B: ");
         System.out.println("Conjunto A " + (CONJUNTO_A.igualdad(CONJUNTO_B) ? " Es igual" : " No es igual ") + " al Conjunto B");
+    }
+    
+    private static void vectorComplemento(){
+        ConjuntoVector complementoA = (ConjuntoVector) CONJUNTO_A.complemento();
+        ConjuntoVector complementoB = (ConjuntoVector) CONJUNTO_B.complemento();
+        System.out.println("Conjunto complemento A: " + Arrays.toString(complementoA.getVec()));
+        System.out.println("Conjunto complemento B: " + Arrays.toString(complementoB.getVec()));
     }
 }
