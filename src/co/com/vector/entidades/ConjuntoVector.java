@@ -20,9 +20,9 @@ public class ConjuntoVector extends AbstractConjuntoVector implements IConjunto 
     @Override
     public void pertenece(Integer dato) {
         if(elementoExiste(getVec(), dato))
-            System.out.print("El elemento pertenece al conjunto");
+            System.out.print("El elemento pertenece al conjunto \n");
         else
-            System.out.print("El elemento NO pertenece al conjunto");
+            System.out.print("El elemento NO pertenece al conjunto \n");
     }
 
     @Override
