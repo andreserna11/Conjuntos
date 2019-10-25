@@ -14,12 +14,11 @@ import co.com.utilidades.Utilidades;
 public class ConjuntoVectorUniversal extends AbstractConjuntoVector{
     
     public ConjuntoVectorUniversal(){
-        this.cantidad = 20;
+        this.cantidad = Utilidades.TAMANO_CONJUNTO;
         this.vec = new Integer[this.cantidad];
         for (int i = 0; i < this.cantidad; i++) {            
-            this.vec[i] = Utilidades.generarNumeroRandom();
+            Utilidades.insertarElementoRandom(i, this.vec);
         }
-    }
-    
+    }       
     
 }

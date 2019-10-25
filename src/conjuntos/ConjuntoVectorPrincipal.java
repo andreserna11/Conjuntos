@@ -5,7 +5,6 @@
  */
 package conjuntos;
 
-import co.com.interfaces.IConjunto;
 import co.com.utilidades.Utilidades;
 import co.com.vector.entidades.ConjuntoVector;
 import co.com.vector.entidades.ConjuntoVectorUniversal;
@@ -14,8 +13,8 @@ import java.util.Arrays;
 public class ConjuntoVectorPrincipal {
     
     public static final ConjuntoVectorUniversal CONJUNTO_UNIVERSAL = new ConjuntoVectorUniversal();
-    private static final ConjuntoVector CONJUNTO_A = crearConjunto(10);
-    private static final ConjuntoVector CONJUNTO_B = crearConjunto(5);
+    private static final ConjuntoVector CONJUNTO_A = crearConjunto(Utilidades.TAMANO_CONJUNTO);
+    private static final ConjuntoVector CONJUNTO_B = crearConjunto(Utilidades.TAMANO_CONJUNTO);
 
     public static void main(String[] args) throws Exception {                
         System.out.println("Conjunto Universal: " + Arrays.toString(CONJUNTO_UNIVERSAL.getVec()));
@@ -43,7 +42,7 @@ public class ConjuntoVectorPrincipal {
     private static ConjuntoVector crearConjunto(Integer cantidad){
         Integer[] vector = new Integer[cantidad];
         for (int i = 0; i < cantidad; i++) {
-            vector[i] = Utilidades.generarNumeroRandom();
+            Utilidades.insertarElementoRandom(i, vector);
         }
         ConjuntoVector conjunto = new ConjuntoVector(cantidad, vector);
         return conjunto;
@@ -95,7 +94,10 @@ public class ConjuntoVectorPrincipal {
     private static void vectorComplemento(){
         ConjuntoVector complementoA = (ConjuntoVector) CONJUNTO_A.complemento();
         ConjuntoVector complementoB = (ConjuntoVector) CONJUNTO_B.complemento();
+        System.out.println("A COMPLEMENTO: ");
         System.out.println("Conjunto complemento A: " + Arrays.toString(complementoA.getVec()));
+        System.out.print("\n");        
+        System.out.println("B COMPLEMENTO: ");
         System.out.println("Conjunto complemento B: " + Arrays.toString(complementoB.getVec()));
     }
 }

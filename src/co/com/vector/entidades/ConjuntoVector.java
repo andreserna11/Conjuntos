@@ -97,9 +97,7 @@ public class ConjuntoVector extends AbstractConjuntoVector implements IConjunto 
         ConjuntoVector conjuntoComplemento = new ConjuntoVector(0, vectorResult);
         for (int i = 0; i < CONJUNTO_UNIVERSAL.getCantidad() - 1; i++) {
             if (!elementoExiste(getVec(), CONJUNTO_UNIVERSAL.vec[i])) {
-                if (!elementoExiste(conjuntoComplemento.getVec(), CONJUNTO_UNIVERSAL.vec[i])) {
-                    conjuntoComplemento.agregar(CONJUNTO_UNIVERSAL.vec[i]); 
-                }                
+                conjuntoComplemento.agregar(CONJUNTO_UNIVERSAL.vec[i]);       
             }
         }        
         return conjuntoComplemento;
