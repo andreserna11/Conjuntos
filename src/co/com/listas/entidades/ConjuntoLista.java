@@ -17,7 +17,7 @@ public class ConjuntoLista implements IConjunto {
     
     static {
         System.out.println("Universal:");
-        for (int i = 1; i < 20; i++) universal.getLista().insertarNodo(i);
+        for (int i = 1; i <= 20; i++) universal.getLista().insertarNodo(i);
         universal.mostrar();
     }
     
