@@ -27,5 +27,12 @@ public class ConjuntoVectorUniversal {
         }
         return universal;
     }
+
+    public static String mostrarUniversal() {
+        obtenerUniversal();
+        return "[" + universal.mostrar() +"]";
+    }
+    
+    
     
 }

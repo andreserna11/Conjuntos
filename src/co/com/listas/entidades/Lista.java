@@ -23,7 +23,7 @@ public class Lista {
         this.padre = padre;
     }
 
-    public void recorrerLista() {
+    public String recorrerLista() {
         Nodo aux = this.padre;
         Nodo ant = null;
         StringBuilder sb = new StringBuilder();
@@ -35,7 +35,7 @@ public class Lista {
                 sb.append(",");
             aux = aux.getLigaSiguiente();
         }
-        System.out.println(sb.toString());
+        return sb.toString();
     }
 
     public void insertarNodo(Integer dato) {

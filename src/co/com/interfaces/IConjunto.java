@@ -4,7 +4,7 @@ import co.com.vector.entidades.ConjuntoVector;
 
 public interface IConjunto {
 
-    void pertenece(Integer dato);
+    Boolean pertenece(Integer dato);
 
     Boolean subconjunto(IConjunto conjunto);
 

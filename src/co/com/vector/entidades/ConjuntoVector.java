@@ -1,13 +1,31 @@
 package co.com.vector.entidades;
 
 import co.com.interfaces.IConjunto;
-public class ConjuntoVector extends AbstractConjuntoVector implements IConjunto {
+public class ConjuntoVector implements IConjunto {
     
-    public static final ConjuntoVectorUniversal CONJUNTO_UNIVERSAL = new ConjuntoVectorUniversal();
+    public static final IConjunto CONJUNTO_UNIVERSAL = ConjuntoVectorUniversal.obtenerUniversal();
+    private Integer[] vec;
+    private Integer cantidad;
 
     public ConjuntoVector(Integer cantidad, Integer[] vec) {
         this.cantidad = cantidad;
         this.vec = vec;
+    }
+
+    public Integer[] getVec() {
+        return vec;
+    }
+
+    public void setVec(Integer[] vec) {
+        this.vec = vec;
+    }
+
+    public Integer getCantidad() {
+        return cantidad;
+    }
+
+    public void setCantidad(Integer cantidad) {
+        this.cantidad = cantidad;
     }
     
     public void setDato(Integer dato, Integer posicion) {
@@ -15,12 +33,14 @@ public class ConjuntoVector extends AbstractConjuntoVector implements IConjunto 
     }
 
     @Override
-    public void pertenece(Integer dato) {
+    public Boolean pertenece(Integer dato) {
         if (elementoExiste(getVec(), dato)) {
             System.out.print("El elemento pertenece al conjunto \n");
+            return true;
         } else {
-            System.out.print("El elemento NO pertenece al conjunto \n");
+            System.out.print("El elemento NO pertenece al conjunto \n");            
         }
+        return false;
     }
 
     @Override
@@ -90,9 +110,9 @@ public class ConjuntoVector extends AbstractConjuntoVector implements IConjunto 
     public IConjunto complemento() {
         Integer[] vectorResult = new Integer[0];
         ConjuntoVector conjuntoComplemento = new ConjuntoVector(0, vectorResult);
-        for (int i = 0; i < CONJUNTO_UNIVERSAL.getCantidad()- 1; i++) {
-            if (!elementoExiste(getVec(), CONJUNTO_UNIVERSAL.vec[i])) {
-                conjuntoComplemento.agregar(CONJUNTO_UNIVERSAL.vec[i]);       
+        for (int i = 0; i < ConjuntoVectorUniversal.obtenerUniversal().obtenerTamano()- 1; i++) {
+            if (!elementoExiste(getVec(), ConjuntoVectorUniversal.obtenerUniversal().obtenerDato(i))) {
+                conjuntoComplemento.agregar(ConjuntoVectorUniversal.obtenerUniversal().obtenerDato(i));       
             }
         }        
         return conjuntoComplemento;
@@ -195,7 +215,7 @@ public class ConjuntoVector extends AbstractConjuntoVector implements IConjunto 
     public Boolean igualdad(IConjunto conjunto) {
         if (obtenerTamano() == conjunto.obtenerTamano()) {
             for (int i = 0; i < obtenerTamano() - 1; i++) {
-                if (elementoExiste(conjunto.getVec(), obtenerDato(i))) {
+                if (conjunto.obtenerDato(i) != null) {
                     continue;
                 } else {
                     return false;

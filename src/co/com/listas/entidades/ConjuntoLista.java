@@ -36,12 +36,14 @@ public class ConjuntoLista implements IConjunto {
     }
 
     @Override
-    public void pertenece(Integer dato) {
+    public Boolean pertenece(Integer dato) {
         if (this.lista.buscarDato(dato) != null) {
             System.out.println("el elemento " + dato + " pertenece al conjunto");
+            return true;
         } else {
-            System.out.println("el elemento " + dato + " no pertenece al conjunto");
+            System.out.println("el elemento " + dato + " no pertenece al conjunto");            
         }
+        return false;
     }
 
     @Override
@@ -221,8 +223,8 @@ public class ConjuntoLista implements IConjunto {
         return esLista;
     }
 
-    public void mostrar() {
-        this.lista.recorrerLista();
+    public String mostrar() {
+        return this.lista.recorrerLista();
     }
 
     private void unirConjuntos(ConjuntoLista conjuntoUnion, ConjuntoLista conjunto) {

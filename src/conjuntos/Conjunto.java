@@ -46,9 +46,7 @@ public class Conjunto {
     
     public static void main(String[] args) throws Exception {   
         
-        System.out.println("LISTAS");
-        System.out.println("_______");
-        mainListas(args);
+        
         System.out.println("\n\n\n\n___________________________________\n\n\n\n");
         System.out.println("VECTORES");
         System.out.println("________");
@@ -56,7 +54,7 @@ public class Conjunto {
     }
 
     public static void mainVectores(String[] args) throws Exception {
-        System.out.println("Conjunto Universal: " + ConjuntoVectorUniversal.obtenerUniversal().toString());
+        System.out.println("Conjunto Universal: " + ConjuntoVectorUniversal.mostrarUniversal());
         System.out.println("Conjunto A: " + Arrays.toString(CONJUNTO_A.getVec()));
         System.out.println("Conjunto B: " + Arrays.toString(CONJUNTO_B.getVec()) + "\n");
 
@@ -150,15 +148,15 @@ public class Conjunto {
 
         System.out.println("\n");
         System.out.println("conjunto 1:");
-        conjunto1.mostrar();
+        System.out.println(conjunto1.mostrar());
 
         System.out.println("\n");
         System.out.println("conjunto 2:");
-        conjunto2.mostrar();
+        System.out.println(conjunto2.mostrar());
 
         System.out.println("\n");
         System.out.println("conjunto 3:");
-        conjunto3.mostrar();
+        System.out.println(conjunto3.mostrar());
 
         complementos();
         subconjuntos();
