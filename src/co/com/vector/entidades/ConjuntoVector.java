@@ -1,19 +1,15 @@
 package co.com.vector.entidades;
 
 import co.com.interfaces.IConjunto;
-import static conjuntos.Conjunto.CONJUNTO_UNIVERSAL;
-
 public class ConjuntoVector extends AbstractConjuntoVector implements IConjunto {
+    
+    public static final ConjuntoVectorUniversal CONJUNTO_UNIVERSAL = new ConjuntoVectorUniversal();
 
     public ConjuntoVector(Integer cantidad, Integer[] vec) {
         this.cantidad = cantidad;
         this.vec = vec;
     }
-
-    public Integer getDato(Integer posicion) {
-        return getVec()[posicion];
-    }
-
+    
     public void setDato(Integer dato, Integer posicion) {
         getVec()[posicion] = dato;
     }
@@ -34,7 +30,7 @@ public class ConjuntoVector extends AbstractConjuntoVector implements IConjunto 
 
     @Override
     public Boolean esVacio() {
-        if (getVec() != null && getCantidad() == 0) {
+        if (getVec() != null && obtenerTamano() == 0) {
             return true;
         }
         return false;
@@ -46,16 +42,16 @@ public class ConjuntoVector extends AbstractConjuntoVector implements IConjunto 
         Integer[] vectorResult = new Integer[0];
         ConjuntoVector result = new ConjuntoVector(0, vectorResult);
 
-        for (int i = 0; i < getCantidad(); i++) {
-            Integer elemento = getVec()[i];
+        for (int i = 0; i < obtenerTamano(); i++) {
+            Integer elemento = obtenerDato(i);
             Boolean existe = elementoExiste(result.getVec(), elemento);
             if (!existe) {
                 result.agregar(elemento);
             }
         }
 
-        for (int i = 0; i < conjuntoB.getCantidad(); i++) {
-            Integer elemento = conjuntoB.getVec()[i];
+        for (int i = 0; i < conjuntoB.obtenerTamano(); i++) {
+            Integer elemento = conjuntoB.obtenerDato(i);
             Boolean existe = elementoExiste(result.getVec(), elemento);
             if (!existe) {
                 result.agregar(elemento);
@@ -73,15 +69,15 @@ public class ConjuntoVector extends AbstractConjuntoVector implements IConjunto 
         ConjuntoVector result = new ConjuntoVector(0, vectorResult);
 
         if (conjuntoMayor.equals(0)) {
-            for (int i = 0; i < conjuntoB.getCantidad(); i++) {
-                Integer elementoB = conjuntoB.getVec()[i];
+            for (int i = 0; i < conjuntoB.obtenerTamano(); i++) {
+                Integer elementoB = conjuntoB.obtenerDato(i);
                 if (elementoExiste(getVec(), elementoB)) {
                     result.agregar(elementoB);
                 }
             }
         } else {
-            for (int i = 0; i < getCantidad(); i++) {
-                Integer elementoB = getVec()[i];
+            for (int i = 0; i < obtenerTamano(); i++) {
+                Integer elementoB = obtenerDato(i);
                 if (elementoExiste(conjuntoB.getVec(), elementoB)) {
                     result.agregar(elementoB);
                 }
@@ -94,7 +90,7 @@ public class ConjuntoVector extends AbstractConjuntoVector implements IConjunto 
     public IConjunto complemento() {
         Integer[] vectorResult = new Integer[0];
         ConjuntoVector conjuntoComplemento = new ConjuntoVector(0, vectorResult);
-        for (int i = 0; i < CONJUNTO_UNIVERSAL.getCantidad() - 1; i++) {
+        for (int i = 0; i < CONJUNTO_UNIVERSAL.getCantidad()- 1; i++) {
             if (!elementoExiste(getVec(), CONJUNTO_UNIVERSAL.vec[i])) {
                 conjuntoComplemento.agregar(CONJUNTO_UNIVERSAL.vec[i]);       
             }
@@ -104,13 +100,13 @@ public class ConjuntoVector extends AbstractConjuntoVector implements IConjunto 
 
     @Override
     public void agregar(Integer dato) {
-        Integer[] newVector = new Integer[getCantidad() + 1];
-        for (int i = 0; i <= getCantidad() - 1; i++) {
-            newVector[i] = getVec()[i];
+        Integer[] newVector = new Integer[obtenerTamano() + 1];
+        for (int i = 0; i <= obtenerTamano() - 1; i++) {
+            newVector[i] = obtenerDato(i);
         }
-        newVector[getCantidad()] = dato;
+        newVector[obtenerTamano()] = dato;
         setVec(newVector);
-        setCantidad(getCantidad() + 1);
+        setCantidad(obtenerTamano() + 1);
     }
 
     @Override
@@ -124,8 +120,8 @@ public class ConjuntoVector extends AbstractConjuntoVector implements IConjunto 
         ConjuntoVector conjuntoB = (ConjuntoVector) conjunto;
         Integer[] vectorResult = new Integer[0];
         ConjuntoVector result = new ConjuntoVector(0, vectorResult);
-        for (int i = 0; i < getCantidad() - 1; i++) {
-            Integer elemento = getVec()[i];
+        for (int i = 0; i < obtenerTamano() - 1; i++) {
+            Integer elemento = obtenerDato(i);
             if (!elementoExiste(conjuntoB.getVec(), elemento)) {
                 result.agregar(elemento);
             }
@@ -138,8 +134,8 @@ public class ConjuntoVector extends AbstractConjuntoVector implements IConjunto 
         ConjuntoVector conjuntoB = (ConjuntoVector) conjunto;
         ConjuntoVector result = (ConjuntoVector) diferencia(conjuntoB);
 
-        for (int i = 0; i < conjuntoB.getCantidad(); i++) {
-            Integer elemento = conjuntoB.getVec()[i];
+        for (int i = 0; i < conjuntoB.obtenerTamano(); i++) {
+            Integer elemento = conjuntoB.obtenerDato(i);
             if (!elementoExiste(getVec(), elemento)) {
                 result.agregar(elemento);
             }
@@ -154,7 +150,7 @@ public class ConjuntoVector extends AbstractConjuntoVector implements IConjunto 
      */
     @Override
     public Integer compararDimensionConjuntos(IConjunto conjuntoB) {
-        return getCantidad() > ((ConjuntoVector) conjuntoB).getCantidad() ? 0 : 1;
+        return obtenerTamano() > ((ConjuntoVector) conjuntoB).obtenerTamano() ? 0 : 1;
     }
 
     /**
@@ -174,8 +170,8 @@ public class ConjuntoVector extends AbstractConjuntoVector implements IConjunto 
     @Override
     public Integer posicion(Integer dato) throws Exception {
         if (elementoExiste(vec, dato)) {
-            for (int i = 0; i < getCantidad() - 1; i++) {
-                if (getVec()[i] == dato) {
+            for (int i = 0; i < obtenerTamano() - 1; i++) {
+                if (obtenerDato(i) == dato) {
                     return i;
                 }
             }
@@ -185,22 +181,21 @@ public class ConjuntoVector extends AbstractConjuntoVector implements IConjunto 
 
     @Override
     public void borrar(Integer dato) {
-        Integer[] updateVector = new Integer[getCantidad() - 1];
-        for (int i = 0; i < getCantidad() - 1; i++) {
-            if (getVec()[i] != dato) {
-                updateVector[i] = getVec()[i];
+        Integer[] updateVector = new Integer[obtenerTamano() - 1];
+        for (int i = 0; i < obtenerTamano() - 1; i++) {
+            if (obtenerDato(i) != dato) {
+                updateVector[i] = obtenerDato(i);
             }
         }
         setVec(updateVector);
-        setCantidad(getCantidad() - 1);
+        setCantidad(obtenerTamano() - 1);
     }
 
     @Override
     public Boolean igualdad(IConjunto conjunto) {
-        ConjuntoVector conjuntoB = (ConjuntoVector) conjunto;
-        if (getCantidad() == conjuntoB.getCantidad()) {
-            for (int i = 0; i < getCantidad() - 1; i++) {
-                if (elementoExiste(conjuntoB.getVec(), getVec()[i])) {
+        if (obtenerTamano() == conjunto.obtenerTamano()) {
+            for (int i = 0; i < obtenerTamano() - 1; i++) {
+                if (elementoExiste(conjunto.getVec(), obtenerDato(i))) {
                     continue;
                 } else {
                     return false;
@@ -211,5 +206,15 @@ public class ConjuntoVector extends AbstractConjuntoVector implements IConjunto 
             return false;
         }
         return true;
+    }
+
+    @Override
+    public Integer obtenerDato(Integer posicion) {
+        return getVec()[posicion];
+    }
+
+    @Override
+    public Integer obtenerTamano() {
+        return this.cantidad;
     }
 }

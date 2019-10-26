@@ -33,5 +33,7 @@ public interface IConjunto {
     Integer posicion(Integer dato) throws Exception;
     
     Integer obtenerDato(Integer posicion);
+    
+    Integer obtenerTamano();
 
 }

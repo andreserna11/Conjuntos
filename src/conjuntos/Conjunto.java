@@ -12,8 +12,7 @@ import co.com.vector.entidades.ConjuntoVectorUniversal;
 import java.util.Arrays;
 
 public class Conjunto {
-
-    public static final ConjuntoVectorUniversal CONJUNTO_UNIVERSAL = new ConjuntoVectorUniversal();
+    
     private static final ConjuntoVector CONJUNTO_A = crearConjunto(Utilidades.TAMANO_CONJUNTO);
     private static final ConjuntoVector CONJUNTO_B = crearConjunto(Utilidades.TAMANO_CONJUNTO);
 
@@ -57,7 +56,7 @@ public class Conjunto {
     }
 
     public static void mainVectores(String[] args) throws Exception {
-        System.out.println("Conjunto Universal: " + Arrays.toString(CONJUNTO_UNIVERSAL.getVec()));
+        System.out.println("Conjunto Universal: " + ConjuntoVectorUniversal.obtenerUniversal().toString());
         System.out.println("Conjunto A: " + Arrays.toString(CONJUNTO_A.getVec()));
         System.out.println("Conjunto B: " + Arrays.toString(CONJUNTO_B.getVec()) + "\n");
 

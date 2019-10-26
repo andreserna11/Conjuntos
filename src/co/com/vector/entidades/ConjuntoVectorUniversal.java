@@ -5,20 +5,27 @@
  */
 package co.com.vector.entidades;
 
+import co.com.interfaces.IConjunto;
+import co.com.listas.entidades.ConjuntoLista;
 import co.com.utilidades.Utilidades;
 
 /**
  *
  * @author sala203
  */
-public class ConjuntoVectorUniversal extends AbstractConjuntoVector{
+public class ConjuntoVectorUniversal {
     
-    public ConjuntoVectorUniversal(){
-        this.cantidad = Utilidades.TAMANO_CONJUNTO;
-        this.vec = new Integer[this.cantidad];
-        for (int i = 0; i < this.cantidad; i++) {            
-            Utilidades.insertarElementoRandom(i, this.vec);
+    private static ConjuntoLista universal;
+        
+    private ConjuntoVectorUniversal() {
+    }
+    
+    public static IConjunto obtenerUniversal() {
+        if (universal == null) {
+            universal = new ConjuntoLista();
+            for (int i = 0; i < Utilidades.TAMANO_CONJUNTO; i++) universal.agregar(Utilidades.generarNumeroRandom());
         }
-    }       
+        return universal;
+    }
     
 }

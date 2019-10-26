@@ -234,4 +234,14 @@ public class ConjuntoLista implements IConjunto {
             aux = aux.getLigaSiguiente();
         }
     }
+
+    @Override
+    public Integer obtenerDato(Integer posicion) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public Integer obtenerTamano() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }
