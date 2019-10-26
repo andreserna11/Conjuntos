@@ -13,16 +13,18 @@ import co.com.interfaces.IConjunto;
  */
 public class ConjuntoLista implements IConjunto {
 
-    private ConjuntoLista universal;
+    private static ConjuntoLista universal = new ConjuntoLista();
+    
+    static {
+        System.out.println("Universal:");
+        for (int i = 1; i <= 20; i++) universal.getLista().insertarNodo(i);
+        universal.mostrar();
+    }
+    
     private Lista lista;
 
     public ConjuntoLista() {
         this.lista = new Lista();
-    }
-
-    public ConjuntoLista(ConjuntoLista universal) {
-        this();
-        this.universal = universal;
     }
 
     private Lista getLista() {
@@ -36,9 +38,9 @@ public class ConjuntoLista implements IConjunto {
     @Override
     public void pertenece(Integer dato) {
         if (this.lista.buscarDato(dato) != null) {
-            System.out.println("el elemento pertenece al conjunto");
+            System.out.println("el elemento " + dato + " pertenece al conjunto");
         } else {
-            System.out.println("el elemento no pertenece al conjunto");
+            System.out.println("el elemento " + dato + " no pertenece al conjunto");
         }
     }
 
@@ -71,10 +73,12 @@ public class ConjuntoLista implements IConjunto {
     @Override
     public IConjunto union(IConjunto conjunto) {
         ConjuntoLista conjuntoUnion = null;
-        if (validarTipoConjunto(conjunto)) {
+        if (validarTipoConjunto(conjunto) && this.universal.subconjunto(conjunto)) {
             conjuntoUnion = new ConjuntoLista();
             unirConjuntos(conjuntoUnion, this);
             unirConjuntos(conjuntoUnion, (ConjuntoLista) conjunto);
+        } else {
+            System.out.println("no se puede realizar la operación");
         }
         return conjuntoUnion;
     }
@@ -82,7 +86,7 @@ public class ConjuntoLista implements IConjunto {
     @Override
     public IConjunto interseccion(IConjunto conjunto) {
         ConjuntoLista conjuntoInterseccion = null;
-        if (validarTipoConjunto(conjunto)) {
+        if (validarTipoConjunto(conjunto) && this.universal.subconjunto(conjunto)) {
             conjuntoInterseccion = new ConjuntoLista();
             Lista listaConjuntoB = ((ConjuntoLista) conjunto).getLista();
             Nodo aux = this.lista.getPadre();
@@ -93,6 +97,8 @@ public class ConjuntoLista implements IConjunto {
                 }
                 aux = aux.getLigaSiguiente();
             }
+        } else {
+            System.out.println("no se puede realizar la operación");
         }
         return conjuntoInterseccion;
     }
@@ -100,7 +106,7 @@ public class ConjuntoLista implements IConjunto {
     @Override
     public Boolean igualdad(IConjunto conjunto) {
         boolean iguales = true;
-        if (validarTipoConjunto(conjunto)) {
+        if (validarTipoConjunto(conjunto) && this.universal.subconjunto(conjunto)) {
             ConjuntoLista conjuntoB = (ConjuntoLista) conjunto;
             Lista listaConjuntoB = conjuntoB.getLista();
             if (this.lista.getCantidadElementos() == listaConjuntoB.getCantidadElementos()) {
@@ -115,20 +121,31 @@ public class ConjuntoLista implements IConjunto {
             } else {
                 iguales = false;
             }
+        } else {
+            System.out.println("no se puede realizar la operación");
         }
         return iguales;
     }
 
     @Override
     public IConjunto complemento() {
-        // TODO Auto-generated method stub
-        return null;
+        ConjuntoLista conjuntoComplemento = new ConjuntoLista();
+        Lista listaUniversal = universal.getLista();
+        Nodo aux = listaUniversal.getPadre();
+        while (aux != null) {
+            int dato = aux.getDato();
+            if (this.lista.buscarDato(dato) == null) conjuntoComplemento.agregar(dato);
+            aux = aux.getLigaSiguiente();
+        }
+        return conjuntoComplemento;
     }
 
     @Override
     public void agregar(Integer dato) {
-        if (this.lista.buscarDato(dato) == null) {
+        if (this.lista.buscarDato(dato) == null && this.universal.getLista().buscarDato(dato) != null) {
             this.lista.insertarNodo(dato);
+        } else {
+            System.out.println("no se puede agregar el dato");
         }
     }
 
@@ -145,7 +162,7 @@ public class ConjuntoLista implements IConjunto {
     @Override
     public IConjunto diferencia(IConjunto conjunto) {
         ConjuntoLista conjuntoDiferencia = null;
-        if (validarTipoConjunto(conjunto)) {
+        if (validarTipoConjunto(conjunto) && this.universal.subconjunto(conjunto)) {
             conjuntoDiferencia = new ConjuntoLista();
             ConjuntoLista conjuntoB = (ConjuntoLista) conjunto;
             Lista listaConjuntoB = conjuntoB.getLista();
@@ -157,6 +174,8 @@ public class ConjuntoLista implements IConjunto {
                 }
                 aux = aux.getLigaSiguiente();
             }
+        } else {
+            System.out.println("no se puede realizar la operación");
         }
         return conjuntoDiferencia;
     }
@@ -164,11 +183,13 @@ public class ConjuntoLista implements IConjunto {
     @Override
     public IConjunto diferenciaSimetrica(IConjunto conjunto) {
         IConjunto conjuntoDiferencia = null;
-        if (validarTipoConjunto(conjunto)) {
+        if (validarTipoConjunto(conjunto) && this.universal.subconjunto(conjunto)) {
             ConjuntoLista conjuntoB = (ConjuntoLista) conjunto;
             ConjuntoLista conjutoDiferenciaAB = (ConjuntoLista) this.diferencia(conjuntoB);
             ConjuntoLista conjutoDiferenciaBA = (ConjuntoLista) conjuntoB.diferencia(this);
             conjuntoDiferencia = (ConjuntoLista) conjutoDiferenciaAB.union(conjutoDiferenciaBA);
+        } else {
+            System.out.println("no se puede realizar la operación");
         }
         return conjuntoDiferencia;
     }
@@ -176,11 +197,13 @@ public class ConjuntoLista implements IConjunto {
     @Override
     public Integer compararDimensionConjuntos(IConjunto conjuntoB) {
         Integer valor = null;
-        if (validarTipoConjunto(conjuntoB)) {
+        if (validarTipoConjunto(conjuntoB) && this.universal.subconjunto(conjuntoB)) {
             ConjuntoLista conjuntoListaB = (ConjuntoLista) conjuntoB;
             int tamañoConjuntoA = this.lista.getCantidadElementos();
             int tamañoConjuntoB = conjuntoListaB.getLista().getCantidadElementos();
             valor = Integer.compare(tamañoConjuntoA, tamañoConjuntoB);
+        } else {
+            System.out.println("no se puede realizar la operación");
         }
         return valor;
     }

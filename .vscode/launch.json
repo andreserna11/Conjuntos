@@ -1,0 +1,10 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "CodeLens (Launch) - ConjuntoVectorPrincipal",
+            "request": "launch",
+            "mainClass": "conjuntos.ConjuntoVectorPrincipal"
+        }
+    ]
+}
