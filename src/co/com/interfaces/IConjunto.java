@@ -31,5 +31,7 @@ public interface IConjunto {
     Integer compararDimensionConjuntos(IConjunto conjuntoB);
 
     Integer posicion(Integer dato) throws Exception;
+    
+    Integer obtenerDato(Integer posicion);
 
 }

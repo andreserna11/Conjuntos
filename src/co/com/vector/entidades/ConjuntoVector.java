@@ -1,8 +1,7 @@
 package co.com.vector.entidades;
 
 import co.com.interfaces.IConjunto;
-import conjuntos.ConjuntoVectorPrincipal;
-import static conjuntos.ConjuntoVectorPrincipal.CONJUNTO_UNIVERSAL;
+import static conjuntos.Conjunto.CONJUNTO_UNIVERSAL;
 
 public class ConjuntoVector extends AbstractConjuntoVector implements IConjunto {
 
