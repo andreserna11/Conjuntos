@@ -1,14 +1,13 @@
 package co.com.vector.entidades;
 
+import java.util.Arrays;
 import co.com.interfaces.IConjunto;
 public class ConjuntoVector implements IConjunto {
     
     public static final IConjunto CONJUNTO_UNIVERSAL = ConjuntoVectorUniversal.obtenerUniversal();
     private Integer[] vec;
-    private Integer cantidad;
-
-    public ConjuntoVector(Integer cantidad, Integer[] vec) {
-        this.cantidad = cantidad;
+    
+    public ConjuntoVector(Integer[] vec) {
         this.vec = vec;
     }
 
@@ -19,14 +18,6 @@ public class ConjuntoVector implements IConjunto {
     public void setVec(Integer[] vec) {
         this.vec = vec;
     }
-
-    public Integer getCantidad() {
-        return cantidad;
-    }
-
-    public void setCantidad(Integer cantidad) {
-        this.cantidad = cantidad;
-    }
     
     public void setDato(Integer dato, Integer posicion) {
         getVec()[posicion] = dato;
@@ -34,18 +25,25 @@ public class ConjuntoVector implements IConjunto {
 
     @Override
     public Boolean pertenece(Integer dato) {
-        if (elementoExiste(getVec(), dato)) {
-            System.out.print("El elemento pertenece al conjunto \n");
-            return true;
-        } else {
-            System.out.print("El elemento NO pertenece al conjunto \n");            
-        }
-        return false;
+        return elementoExiste(getVec(), dato);
     }
 
     @Override
-    public Boolean subconjunto(IConjunto conjunto) {
-        return null;
+    public Boolean subconjunto(IConjunto conjuntoB) {
+        int tamanoConjuntoB = conjuntoB.obtenerTamano();
+        boolean esSubconjunto = true;
+        if (tamanoConjuntoB <= this.obtenerTamano()) {
+            for (int i = 0; i < tamanoConjuntoB; i++) {
+                int dato = conjuntoB.obtenerDato(i);
+                if (!this.pertenece(dato)) {
+                    esSubconjunto = false;
+                    break;
+                }
+            }
+        } else {
+            esSubconjunto = false;
+        }
+        return esSubconjunto;
     }
 
     @Override
@@ -57,10 +55,9 @@ public class ConjuntoVector implements IConjunto {
     }
 
     @Override
-    public IConjunto union(IConjunto conjunto) {
-        ConjuntoVector conjuntoB = (ConjuntoVector) conjunto;
+    public IConjunto union(IConjunto conjuntoB) {
         Integer[] vectorResult = new Integer[0];
-        ConjuntoVector result = new ConjuntoVector(0, vectorResult);
+        ConjuntoVector result = new ConjuntoVector(vectorResult);
 
         for (int i = 0; i < obtenerTamano(); i++) {
             Integer elemento = obtenerDato(i);
@@ -82,11 +79,10 @@ public class ConjuntoVector implements IConjunto {
     }
 
     @Override
-    public IConjunto interseccion(IConjunto conjunto) {
-        ConjuntoVector conjuntoB = (ConjuntoVector) conjunto;
+    public IConjunto interseccion(IConjunto conjuntoB) {
         Integer conjuntoMayor = this.compararDimensionConjuntos(conjuntoB);
         Integer[] vectorResult = new Integer[0];
-        ConjuntoVector result = new ConjuntoVector(0, vectorResult);
+        ConjuntoVector result = new ConjuntoVector(vectorResult);
 
         if (conjuntoMayor.equals(0)) {
             for (int i = 0; i < conjuntoB.obtenerTamano(); i++) {
@@ -98,7 +94,7 @@ public class ConjuntoVector implements IConjunto {
         } else {
             for (int i = 0; i < obtenerTamano(); i++) {
                 Integer elementoB = obtenerDato(i);
-                if (elementoExiste(conjuntoB.getVec(), elementoB)) {
+                if (conjuntoB.pertenece(elementoB)) {
                     result.agregar(elementoB);
                 }
             }
@@ -109,8 +105,8 @@ public class ConjuntoVector implements IConjunto {
     @Override
     public IConjunto complemento() {
         Integer[] vectorResult = new Integer[0];
-        ConjuntoVector conjuntoComplemento = new ConjuntoVector(0, vectorResult);
-        for (int i = 0; i < ConjuntoVectorUniversal.obtenerUniversal().obtenerTamano()- 1; i++) {
+        ConjuntoVector conjuntoComplemento = new ConjuntoVector(vectorResult);
+        for (int i = 0; i < ConjuntoVectorUniversal.obtenerUniversal().obtenerTamano(); i++) {
             if (!elementoExiste(getVec(), ConjuntoVectorUniversal.obtenerUniversal().obtenerDato(i))) {
                 conjuntoComplemento.agregar(ConjuntoVectorUniversal.obtenerUniversal().obtenerDato(i));       
             }
@@ -120,29 +116,28 @@ public class ConjuntoVector implements IConjunto {
 
     @Override
     public void agregar(Integer dato) {
-        Integer[] newVector = new Integer[obtenerTamano() + 1];
-        for (int i = 0; i <= obtenerTamano() - 1; i++) {
-            newVector[i] = obtenerDato(i);
+        if (!pertenece(dato)) {
+            Integer[] newVector = new Integer[obtenerTamano() + 1];
+            for (int i = 0; i <= obtenerTamano() - 1; i++) {
+                newVector[i] = obtenerDato(i);
+            }
+            newVector[obtenerTamano()] = dato;
+            setVec(newVector);
         }
-        newVector[obtenerTamano()] = dato;
-        setVec(newVector);
-        setCantidad(obtenerTamano() + 1);
     }
 
     @Override
     public void vaciar() {
         setVec(new Integer[0]);
-        setCantidad(0);
     }
 
     @Override
-    public IConjunto diferencia(IConjunto conjunto) {
-        ConjuntoVector conjuntoB = (ConjuntoVector) conjunto;
+    public IConjunto diferencia(IConjunto conjuntoB) {
         Integer[] vectorResult = new Integer[0];
-        ConjuntoVector result = new ConjuntoVector(0, vectorResult);
-        for (int i = 0; i < obtenerTamano() - 1; i++) {
+        ConjuntoVector result = new ConjuntoVector(vectorResult);
+        for (int i = 0; i < obtenerTamano(); i++) {
             Integer elemento = obtenerDato(i);
-            if (!elementoExiste(conjuntoB.getVec(), elemento)) {
+            if (!conjuntoB.pertenece(elemento)) {
                 result.agregar(elemento);
             }
         }
@@ -150,16 +145,10 @@ public class ConjuntoVector implements IConjunto {
     }
 
     @Override
-    public IConjunto diferenciaSimetrica(IConjunto conjunto) {
-        ConjuntoVector conjuntoB = (ConjuntoVector) conjunto;
-        ConjuntoVector result = (ConjuntoVector) diferencia(conjuntoB);
-
-        for (int i = 0; i < conjuntoB.obtenerTamano(); i++) {
-            Integer elemento = conjuntoB.obtenerDato(i);
-            if (!elementoExiste(getVec(), elemento)) {
-                result.agregar(elemento);
-            }
-        }
+    public IConjunto diferenciaSimetrica(IConjunto conjuntoB) {
+        IConjunto diferenciaAB = diferencia(conjuntoB);
+        IConjunto diferenciaBA = conjuntoB.diferencia(this);
+        IConjunto result = diferenciaAB.union(diferenciaBA);
         return result;
     }
 
@@ -170,7 +159,7 @@ public class ConjuntoVector implements IConjunto {
      */
     @Override
     public Integer compararDimensionConjuntos(IConjunto conjuntoB) {
-        return obtenerTamano() > ((ConjuntoVector) conjuntoB).obtenerTamano() ? 0 : 1;
+        return obtenerTamano() > conjuntoB.obtenerTamano()? 0 : 1;
     }
 
     /**
@@ -201,14 +190,18 @@ public class ConjuntoVector implements IConjunto {
 
     @Override
     public void borrar(Integer dato) {
-        Integer[] updateVector = new Integer[obtenerTamano() - 1];
-        for (int i = 0; i < obtenerTamano() - 1; i++) {
-            if (obtenerDato(i) != dato) {
-                updateVector[i] = obtenerDato(i);
+        int nuevoTamano = obtenerTamano() - 1;
+        Integer[] updateVector = new Integer[nuevoTamano];
+        int indexInsert = 0;
+        for (int i = 0; i < nuevoTamano; i++) {
+            Integer datoVec = obtenerDato(indexInsert);
+            if (datoVec.equals(datoVec)) {
+                indexInsert++;
+                datoVec = obtenerDato(indexInsert);
             }
+            updateVector[i] = datoVec;
         }
         setVec(updateVector);
-        setCantidad(obtenerTamano() - 1);
     }
 
     @Override
@@ -235,6 +228,11 @@ public class ConjuntoVector implements IConjunto {
 
     @Override
     public Integer obtenerTamano() {
-        return this.cantidad;
+        return this.vec.length;
+    }
+    
+    @Override 
+    public String toString(){
+        return Arrays.toString(this.getVec());
     }
 }

@@ -32,7 +32,7 @@ public class Lista {
             ant = aux;
             sb.append(ant.getDato());
             if (aux.getLigaSiguiente() != null)
-                sb.append(",");
+                sb.append(", ");
             aux = aux.getLigaSiguiente();
         }
         return sb.toString();
@@ -86,6 +86,21 @@ public class Lista {
             // System.out.println("Nodos -> " + ant.getDato());
         }
         return ant;
+    }
+    
+    public Integer obtenerDato(int posicion) {
+        Nodo aux = this.padre;
+        Integer resultado = null;
+        int index = 0;
+        while (aux != null && resultado == null) {
+            if (index == posicion) {
+                resultado = aux.getDato();
+            } else {
+                aux = aux.getLigaSiguiente();
+                index++;
+            }
+        }
+        return resultado;
     }
 
     public Nodo buscarDato(int dato) {

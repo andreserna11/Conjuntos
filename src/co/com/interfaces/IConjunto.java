@@ -10,7 +10,7 @@ public interface IConjunto {
 
     Boolean esVacio();
 
-    IConjunto union(IConjunto conjunto) throws Exception;
+    IConjunto union(IConjunto conjunto);
 
     IConjunto interseccion(IConjunto conjunto);
 
@@ -18,7 +18,7 @@ public interface IConjunto {
 
     IConjunto complemento();
 
-    void agregar(Integer dato) throws Exception;
+    void agregar(Integer dato);
 
     void borrar(Integer dato);
 

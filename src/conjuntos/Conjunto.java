@@ -5,6 +5,7 @@
  */
 package conjuntos;
 
+import co.com.interfaces.IConjunto;
 import co.com.utilidades.Utilidades;
 import co.com.vector.entidades.ConjuntoVector;
 import co.com.listas.entidades.ConjuntoLista;
@@ -13,298 +14,138 @@ import java.util.Arrays;
 
 public class Conjunto {
     
-    private static final ConjuntoVector CONJUNTO_A = crearConjunto(Utilidades.TAMANO_CONJUNTO);
-    private static final ConjuntoVector CONJUNTO_B = crearConjunto(Utilidades.TAMANO_CONJUNTO);
-
-    private static final ConjuntoLista conjunto1 = new ConjuntoLista();
-    private static final ConjuntoLista conjunto2 = new ConjuntoLista();
-    private static final ConjuntoLista conjunto3 = new ConjuntoLista();
-    private static final ConjuntoLista conjunto4 = new ConjuntoLista();
-    private static final ConjuntoLista conjunto5 = new ConjuntoLista();
-    private static final ConjuntoLista conjunto6 = new ConjuntoLista();
-
-    static {
-        for (int i = 5; i <= 10; i++) {
-            conjunto1.agregar(i);
-        }
-        for (int i = 6; i <= 8; i++) {
-            conjunto2.agregar(i);
-        }
-        for (int i = 3; i <= 18; i++) {
-            conjunto3.agregar(i);
-        }
-        for (int i = 15; i <= 19; i++) {
-            conjunto5.agregar(i);
-        }
-        for (int i = 15; i <= 19; i++) {
-            conjunto4.agregar(i);
-        }
-        for (int i = 5; i <= 10; i++) {
-            conjunto6.agregar(i);
-        }
+    public static void main(String[] args) {
+//        vectores();
+        listas();
     }
     
-    public static void main(String[] args) throws Exception {   
-        
-        
-        System.out.println("\n\n\n\n___________________________________\n\n\n\n");
-        System.out.println("VECTORES");
-        System.out.println("________");
-        mainVectores(args);
-    }
-
-    public static void mainVectores(String[] args) throws Exception {
-        System.out.println("Conjunto Universal: " + ConjuntoVectorUniversal.mostrarUniversal());
-        System.out.println("Conjunto A: " + Arrays.toString(CONJUNTO_A.getVec()));
-        System.out.println("Conjunto B: " + Arrays.toString(CONJUNTO_B.getVec()) + "\n");
-
-        verificarPertenece(5);
-        System.out.print("\n");
-        verificarEsVacio();
-        System.out.print("\n");
-        verificarUnion();
-        System.out.print("\n");
-        verificarInterseccion();
-        System.out.print("\n");
-        verificarDiferencia();
-        System.out.print("\n");
-        verificarDiferenciaSimetrica();
-        System.out.print("\n");
-        verificarIgualdad();
-        System.out.print("\n");
-        vectorComplemento();
-
-    }
-
-    private static ConjuntoVector crearConjunto(Integer cantidad) {
-        Integer[] vector = new Integer[cantidad];
-        for (int i = 0; i < cantidad; i++) {
-            Utilidades.insertarElementoRandom(i, vector);
+    private static void vectores() {
+        IConjunto conjuntoUniversal = ConjuntoVectorUniversal.obtenerUniversal();
+        System.out.println("Universal: " +  conjuntoUniversal);
+        IConjunto conjuntoVectorA = new ConjuntoVector(new Integer[0]);
+        IConjunto conjuntoVectorB = new ConjuntoVector(new Integer[0]);
+        IConjunto conjuntoVectorC = new ConjuntoVector(new Integer[0]);
+        for (int i = 0; i < conjuntoUniversal.obtenerTamano() / 2; i++) {
+            conjuntoVectorA.agregar(conjuntoUniversal.obtenerDato(i));
+            conjuntoVectorB.agregar(conjuntoUniversal.obtenerDato(i+3));
         }
-        ConjuntoVector conjunto = new ConjuntoVector(cantidad, vector);
-        return conjunto;
+        for (int i = 0; i < conjuntoVectorA.obtenerTamano() - 1; i++) {
+            conjuntoVectorC.agregar(conjuntoVectorA.obtenerDato(i));
+        }
+        int primerDatoA = conjuntoVectorA.obtenerDato(0);
+        System.out.println("conjunto A: " + conjuntoVectorA);
+        System.out.println("conjunto B: " + conjuntoVectorB);
+        System.out.println("conjunto C: " + conjuntoVectorC);
+        System.out.println("AUB: " +  conjuntoVectorA.union(conjuntoVectorB));
+        System.out.println("BUA: " +  conjuntoVectorB.union(conjuntoVectorA));
+        System.out.println("AUB == BUA: " + conjuntoVectorA.union(conjuntoVectorB).igualdad(conjuntoVectorB.union(conjuntoVectorA)));
+        System.out.println("AnB: " +  conjuntoVectorA.interseccion(conjuntoVectorB));
+        System.out.println("BnA: " +  conjuntoVectorB.interseccion(conjuntoVectorA));
+        System.out.println("AnB == BnA: " + conjuntoVectorA.interseccion(conjuntoVectorB).igualdad(conjuntoVectorB.interseccion(conjuntoVectorA)));
+        System.out.println("C es subconjunto de A: " + conjuntoVectorA.subconjunto(conjuntoVectorC));
+        System.out.println("C es subconjunto de B: " + conjuntoVectorB.subconjunto(conjuntoVectorC));
+        System.out.println("Complemento de A: " + conjuntoVectorA.complemento());
+        System.out.println("Complemento de B: " + conjuntoVectorB.complemento());
+        conjuntoVectorA.borrar(primerDatoA);
+        System.out.println("Conjunto A despues de eliminar " + primerDatoA + ": " + conjuntoVectorA);
+        System.out.println("Complemento de A: " + conjuntoVectorA.complemento());
+        conjuntoVectorC.vaciar();
+        System.out.println("Conjunto c despues de vaciar: " + conjuntoVectorC);
+        System.out.println("A\\B: " + conjuntoVectorA.diferencia(conjuntoVectorB));
+        System.out.println("B\\A: " + conjuntoVectorB.diferencia(conjuntoVectorA));
+        System.out.println("AΔB: " + conjuntoVectorA.diferenciaSimetrica(conjuntoVectorB));
+        System.out.println("BΔA: " + conjuntoVectorB.diferenciaSimetrica(conjuntoVectorA));
     }
-
-    private static void verificarPertenece(Integer elemento) {
-        System.out.println("PERTENECE: " + elemento);
-        System.out.print("Conjunto A ");
-        CONJUNTO_A.pertenece(elemento);
-        System.out.print("Conjunto B ");
-        CONJUNTO_B.pertenece(elemento);
-    }
-
-    private static void verificarEsVacio() {
-        System.out.println("ES VACIO: ");
-        System.out.println("Conjunto A " + (CONJUNTO_A.esVacio() ? "es vacio" : "NO es vacio"));
-        System.out.println("Conjunto B " + (CONJUNTO_B.esVacio() ? "es vacio" : "NO es vacio"));
-    }
-
-    private static void verificarUnion() {
-        ConjuntoVector unionAB = (ConjuntoVector) CONJUNTO_A.union(CONJUNTO_B);
-        System.out.println("A UNIDO B: ");
-        System.out.println("Conjunto AuB: " + Arrays.toString(unionAB.getVec()));
-    }
-
-    private static void verificarInterseccion() {
-        ConjuntoVector interseccionAB = (ConjuntoVector) CONJUNTO_A.interseccion(CONJUNTO_B);
-        System.out.println("A INTERCEPTADO B: ");
-        System.out.println("Conjunto AiB: " + Arrays.toString(interseccionAB.getVec()));
-    }
-
-    private static void verificarDiferencia() {
-        ConjuntoVector diferenciaAB = (ConjuntoVector) CONJUNTO_A.diferencia(CONJUNTO_B);
-        System.out.println("A DIFERENCIA B: ");
-        System.out.println("Conjunto AdB: " + Arrays.toString(diferenciaAB.getVec()));
-    }
-
-    private static void verificarDiferenciaSimetrica() {
-        ConjuntoVector diferenciaSimetricaAB = (ConjuntoVector) CONJUNTO_A.diferenciaSimetrica(CONJUNTO_B);
-        System.out.println("A DIFERENCIA SIMETRICA B: ");
-        System.out.println("Conjunto AdsB: " + Arrays.toString(diferenciaSimetricaAB.getVec()));
-    }
-
-    private static void verificarIgualdad() {
-        System.out.println("A IGUAL B: ");
-        System.out.println("Conjunto A " + (CONJUNTO_A.igualdad(CONJUNTO_B) ? " Es igual" : " No es igual ") + " al Conjunto B");
-    }
-
-    private static void vectorComplemento() {
-        ConjuntoVector complementoA = (ConjuntoVector) CONJUNTO_A.complemento();
-        ConjuntoVector complementoB = (ConjuntoVector) CONJUNTO_B.complemento();
-        System.out.println("A COMPLEMENTO: ");
-        System.out.println("Conjunto complemento A: " + Arrays.toString(complementoA.getVec()));
-        System.out.print("\n");
-        System.out.println("B COMPLEMENTO: ");
-        System.out.println("Conjunto complemento B: " + Arrays.toString(complementoB.getVec()));
-    }
-
-    public static void mainListas(String[] args) throws Exception {
-
-        System.out.println("\n");
-        conjunto1.pertenece(6);
-
-        System.out.println("\n");
-        conjunto1.pertenece(777);
-
-        System.out.println("\n");
-        System.out.println("conjunto 1:");
-        System.out.println(conjunto1.mostrar());
-
-        System.out.println("\n");
-        System.out.println("conjunto 2:");
-        System.out.println(conjunto2.mostrar());
-
-        System.out.println("\n");
-        System.out.println("conjunto 3:");
-        System.out.println(conjunto3.mostrar());
-
-        complementos();
-        subconjuntos();
-        verificarVacio();
-        uniones();
-        intersecciones();
-        diferencias();
-        diferenciaSimetrica();
-        compararTamanos();
-        eliminarListas();
-        agregarListas();
-    }
-
-    private static void complementos() {
-        System.out.println("\nCOMPLEMENTO");
-        System.out.println("conjunto 1:");
-        conjunto1.mostrar();
-        System.out.println("complemento conjunto 1:");
-        ConjuntoLista conjuntoComplemento1 = (ConjuntoLista) conjunto1.complemento();
-        conjuntoComplemento1.mostrar();
-        System.out.println("\nconjunto 2:");
-        conjunto2.mostrar();
-        System.out.println("complemento conjunto 2:");
-        ConjuntoLista conjuntoComplemento2 = (ConjuntoLista) conjunto2.complemento();
-        conjuntoComplemento2.mostrar();
-    }
-
-    private static void subconjuntos() {
-        System.out.println("\nSUBCONJUNTOS");
-        System.out.println("conjunto 1:");
-        conjunto1.mostrar();
-        System.out.println("conjunto 2:");
-        conjunto2.mostrar();
-        System.out.println("conjunto 3:");
-        conjunto3.mostrar();
-        System.out.println("conjunto 2 es subconjunto 1: " + conjunto1.subconjunto(conjunto2));
-        System.out.println("conjunto 3 es subconjunto 1: " + conjunto1.subconjunto(conjunto3));
-    }
-
-    private static void verificarVacio() {
-        System.out.println("\n");
-        System.out.println("conjunto 1 es vacio: " + conjunto1.esVacio());
-
-        System.out.println("\n");
-        System.out.println("conjunto 4 es vacio: " + conjunto4.esVacio());
-        conjunto4.vaciar();
-
-        System.out.println("\n");
-        System.out.println("conjunto 4 es vacio: " + conjunto4.esVacio());
-    }
-
-    private static void uniones() {
-        System.out.println("\nUNION");
-        System.out.println("conjunto 1:");
-        conjunto1.mostrar();
-        System.out.println("conjunto 5:");
-        conjunto5.mostrar();
-        System.out.println("Union conjuntos 1 y 5");
-        ConjuntoLista conjuntoUnion = (ConjuntoLista) conjunto1.union(conjunto5);
-        conjuntoUnion.mostrar();
-    }
-
-    private static void intersecciones() {
-        System.out.println("\nINTERSECCION");
-        System.out.println("conjunto 1:");
-        conjunto1.mostrar();
-        System.out.println("conjunto 5:");
-        conjunto5.mostrar();
-        System.out.println("Interseccion conjuntos 1 y 5");
-        ConjuntoLista conjuntoInterseccion = (ConjuntoLista) conjunto1.interseccion(conjunto3);
-        conjuntoInterseccion.mostrar();
-    }
-
-    private static void diferencias() {
-        System.out.println("\nDIFERENCIA");
-        System.out.println("conjunto 1:");
-        conjunto1.mostrar();
-        System.out.println("conjunto 3:");
-        conjunto3.mostrar();
-        System.out.println("Diferencia conjuntos 3 y 1");
-        ConjuntoLista conjuntoDiferencia = (ConjuntoLista) conjunto3.diferencia(conjunto1);
-        conjuntoDiferencia.mostrar();
-    }
-
-    private static void igualdades() {
-        System.out.println("\nIGUALDAD");
-        System.out.println("conjunto 1:");
-        conjunto1.mostrar();
-        System.out.println("conjunto 6:");
-        conjunto6.mostrar();
-        System.out.println("conjunto 3:");
-        conjunto3.mostrar();
-        System.out.println("Igualdad entre conjuntos 3 y 1: " + conjunto3.igualdad(conjunto1));
-        System.out.println("Igualdad entre conjuntos 1 y 6: " + conjunto1.igualdad(conjunto6));
-    }
-
-    private static void diferenciaSimetrica() {
-        System.out.println("\nDIFERENCIA SIMETRICA");
-        System.out.println("conjunto 1:");
-        conjunto1.mostrar();
-        System.out.println("conjunto 3:");
-        conjunto3.mostrar();
-        ConjuntoLista diferenciaSimetrica13 = (ConjuntoLista) conjunto1.diferenciaSimetrica(conjunto3);
-        System.out.println("Diferencia simetrica entre 1 y 3:");
-        diferenciaSimetrica13.mostrar();
-    }
-
-    private static void compararTamanos() {
-        System.out.println("\nTAMAÑOS");
-        System.out.println("conjunto 1:");
-        conjunto1.mostrar();
-        System.out.println("conjunto 2:");
-        conjunto2.mostrar();
-        System.out.println("conjunto 3:");
-        conjunto3.mostrar();
-        int comparacionTamanos13 = conjunto1.compararDimensionConjuntos(conjunto3);
-        int comparacionTamanos12 = conjunto1.compararDimensionConjuntos(conjunto2);
-        int comparacionTamanos21 = conjunto2.compararDimensionConjuntos(conjunto1);
-        System.out.println("Tamaño conjunto 1 es " + (comparacionTamanos13 == 0 ? "igual" : comparacionTamanos13 > 0 ? "mayor" : "menor") + " que el del conjunto 3");
-        System.out.println("Tamaño conjunto 1 es " + (comparacionTamanos12 == 0 ? "igual" : comparacionTamanos12 > 0 ? "mayor" : "menor") + " que el del conjunto 2");
-        System.out.println("Tamaño conjunto 2 es " + (comparacionTamanos12 == 0 ? "igual" : comparacionTamanos21 > 0 ? "mayor" : "menor") + " que el del conjunto 1");
-    }
-
-    private static void agregarListas() {
-        System.out.println("\nAGREGAR");
-        System.out.println("se agrega \"2\" al conjunto 1");
-        System.out.println("antes:");
-        conjunto1.mostrar();
-        System.out.println("despues:");
-        conjunto1.agregar(2);
-        conjunto1.mostrar();
-
-        System.out.println("\n");
-        System.out.println("se agrega \"51\" al conjunto 1");
-        System.out.println("antes:");
-        conjunto1.mostrar();
-        System.out.println("despues:");
-        conjunto1.agregar(2);
-        conjunto1.mostrar();
-    }
-
-    private static void eliminarListas() {
-        System.out.println("\nELIMINAR");
-        System.out.println("se elimina \"10\" del conjunto 3");
-        System.out.println("antes:");
-        conjunto3.mostrar();
-        System.out.println("despues:");
-        conjunto3.borrar(10);
-        conjunto3.mostrar();
+    
+    private static void listas() {
+        IConjunto conjuntoUniversal = ConjuntoVectorUniversal.obtenerUniversal();
+        System.out.println("Universal: " +  conjuntoUniversal);
+        IConjunto conjuntoVectorA = new ConjuntoVector(new Integer[0]);
+        IConjunto conjuntoVectorB = new ConjuntoVector(new Integer[0]);
+        IConjunto conjuntoVectorC = new ConjuntoVector(new Integer[0]);
+        IConjunto conjuntoListaA = new ConjuntoLista();
+        IConjunto conjuntoListaB = new ConjuntoLista();
+        IConjunto conjuntoListaC = new ConjuntoLista();
+        for (int i = 0; i < conjuntoUniversal.obtenerTamano() / 2; i++) {
+            conjuntoVectorA.agregar(conjuntoUniversal.obtenerDato(i));
+            conjuntoListaA.agregar(conjuntoUniversal.obtenerDato(i));
+            conjuntoVectorB.agregar(conjuntoUniversal.obtenerDato(i+3));
+            conjuntoListaB.agregar(conjuntoUniversal.obtenerDato(i+3));
+        }
+        for (int i = 0; i < conjuntoVectorA.obtenerTamano() - 1; i++) {
+            conjuntoVectorC.agregar(conjuntoVectorA.obtenerDato(i));
+            conjuntoListaC.agregar(conjuntoListaA.obtenerDato(i));
+        }
+        int primerDatoAV = conjuntoVectorA.obtenerDato(0);
+        int primerDatoAL = conjuntoListaA.obtenerDato(0);
+        System.out.println("conjunto AV: " + conjuntoVectorA);
+        System.out.println("conjunto BV: " + conjuntoVectorB);
+        System.out.println("conjunto CV: " + conjuntoVectorC);
+        System.out.println("conjunto AL: " + conjuntoListaA);
+        System.out.println("conjunto BL: " + conjuntoListaB);
+        System.out.println("conjunto CL: " + conjuntoListaC);
+        System.out.println("AL == AV " + conjuntoListaA.igualdad(conjuntoVectorA));
+        System.out.println("BL == BV " + conjuntoListaB.igualdad(conjuntoVectorB));
+        System.out.println("");
+        System.out.println("AV U BV: " +  conjuntoVectorA.union(conjuntoVectorB));
+        System.out.println("AL U BL: " +  conjuntoListaA.union(conjuntoListaB));
+        System.out.println("AV U BL: " +  conjuntoVectorA.union(conjuntoListaB));
+        System.out.println("AL U BV: " +  conjuntoListaA.union(conjuntoVectorB));
+        System.out.println("(AL U BL) == (AV U BV): " +  conjuntoListaA.union(conjuntoListaB).igualdad(conjuntoVectorA.union(conjuntoVectorB)));
+        System.out.println("(AV U BL) == (AL U BV): " +  conjuntoVectorA.union(conjuntoListaB).igualdad(conjuntoListaA.union(conjuntoVectorB)));
+        System.out.println("");
+        System.out.println("AV n BV: " +  conjuntoVectorA.interseccion(conjuntoVectorB));
+        System.out.println("AL n BL: " +  conjuntoListaA.interseccion(conjuntoListaB));
+        System.out.println("AV n BL: " +  conjuntoVectorA.interseccion(conjuntoListaB));
+        System.out.println("AL n BV: " +  conjuntoListaA.interseccion(conjuntoVectorB));
+        System.out.println("(AL n BL) == (AV n BV): " + conjuntoListaA.interseccion(conjuntoListaB).igualdad(conjuntoVectorA.interseccion(conjuntoVectorB)));
+        System.out.println("(AV n BL) == (AL n BV): " + conjuntoVectorA.interseccion(conjuntoListaB).igualdad(conjuntoListaA.interseccion(conjuntoVectorB)));
+        System.out.println("");
+        System.out.println("CV es subconjunto de AV: " + conjuntoVectorA.subconjunto(conjuntoVectorC));
+        System.out.println("CV es subconjunto de AL: " + conjuntoListaA.subconjunto(conjuntoVectorC));
+        System.out.println("CL es subconjunto de AL: " + conjuntoListaA.subconjunto(conjuntoListaC));
+        System.out.println("CL es subconjunto de AV: " + conjuntoVectorA.subconjunto(conjuntoListaC));
+        System.out.println("CV es subconjunto de BV: " + conjuntoVectorB.subconjunto(conjuntoVectorC));
+        System.out.println("CV es subconjunto de BL: " + conjuntoListaB.subconjunto(conjuntoVectorC));
+        System.out.println("CL es subconjunto de BL: " + conjuntoListaB.subconjunto(conjuntoListaC));
+        System.out.println("CL es subconjunto de BV: " + conjuntoVectorB.subconjunto(conjuntoListaC));
+        System.out.println("");
+        System.out.println("Complemento de AV: " + conjuntoVectorA.complemento());
+        System.out.println("Complemento de AL: " + conjuntoListaA.complemento());
+        System.out.println("Complemento de BV: " + conjuntoVectorB.complemento());
+        System.out.println("Complemento de BL: " + conjuntoListaB.complemento());
+        System.out.println("");
+         conjuntoVectorA.borrar(primerDatoAV);
+        conjuntoListaA.borrar(primerDatoAL);
+        System.out.println("Conjunto AV despues de eliminar " + primerDatoAV + ": " + conjuntoVectorA);
+        System.out.println("Conjunto AL despues de eliminar " + primerDatoAL + ": " + conjuntoListaA);
+        System.out.println("");
+        System.out.println("Complemento de AV: " + conjuntoVectorA.complemento());
+        System.out.println("Complemento de AL: " + conjuntoVectorA.complemento());
+        conjuntoVectorC.vaciar();
+        conjuntoListaC.vaciar();
+        System.out.println("Conjunto CV despues de vaciarse: " + conjuntoVectorC);
+        System.out.println("Conjunto CL despues de vaciarse: " + conjuntoListaC);
+        System.out.println("");
+        System.out.println("AV \\ BV: " + conjuntoVectorA.diferencia(conjuntoVectorB));
+        System.out.println("AL \\ BL: " + conjuntoListaA.diferencia(conjuntoListaB));
+        System.out.println("AV \\ BL: " + conjuntoVectorA.diferencia(conjuntoListaB));
+        System.out.println("AL \\ BV: " + conjuntoListaA.diferencia(conjuntoVectorB));
+        System.out.println("(AV \\ BV) == (AL \\ BL): " + conjuntoVectorA.diferencia(conjuntoVectorB).igualdad(conjuntoListaA.diferencia(conjuntoListaB)));
+        System.out.println("");
+        System.out.println("(AV \\ BL) == (AL \\ BV): " + conjuntoVectorA.diferencia(conjuntoListaB).igualdad(conjuntoListaA.diferencia(conjuntoVectorB)));
+        System.out.println("BV \\ AV: " + conjuntoVectorB.diferencia(conjuntoVectorA));
+        System.out.println("BL \\ AL: " + conjuntoListaB.diferencia(conjuntoListaA));
+        System.out.println("BV \\ AL: " + conjuntoVectorB.diferencia(conjuntoListaA));
+        System.out.println("BL \\ AV: " + conjuntoListaB.diferencia(conjuntoVectorA));
+        System.out.println("(BV \\ AV) == (BL \\ AL): " + conjuntoVectorB.diferencia(conjuntoVectorA).igualdad(conjuntoListaB.diferencia(conjuntoListaA)));
+        System.out.println("(BV \\ AL) == (BL \\ AV): " + conjuntoVectorB.diferencia(conjuntoListaA).igualdad(conjuntoListaB.diferencia(conjuntoVectorA)));
+        System.out.println("");
+        System.out.println("AV Δ BV: " + conjuntoVectorA.diferenciaSimetrica(conjuntoVectorB));
+        System.out.println("AL Δ BL: " + conjuntoListaA.diferenciaSimetrica(conjuntoListaB));
+        System.out.println("AL Δ BV: " + conjuntoListaA.diferenciaSimetrica(conjuntoVectorB));
+        System.out.println("AV Δ BL: " + conjuntoVectorA.diferenciaSimetrica(conjuntoListaB));
+        System.out.println("(AV Δ BV) == (AL Δ BL):" + conjuntoVectorA.diferenciaSimetrica(conjuntoVectorB).igualdad(conjuntoListaA.diferenciaSimetrica(conjuntoListaB)));
+        System.out.println("(AL Δ BV) == (AV Δ BL):" + conjuntoListaA.diferenciaSimetrica(conjuntoVectorB).igualdad(conjuntoVectorA.diferenciaSimetrica(conjuntoListaB)));
     }
 }

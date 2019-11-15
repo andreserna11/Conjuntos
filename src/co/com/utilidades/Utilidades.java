@@ -13,8 +13,8 @@ import java.util.Random;
  */
 public class Utilidades {
     
-    public static Integer TAMANO_CONJUNTO = 5;
-    public static Integer RANGO_NUMEROS = 10;
+    public static Integer TAMANO_CONJUNTO = 10;
+    public static Integer RANGO_NUMEROS = 20;
     
     public static Integer generarNumeroRandom() {
         Random randomGenerator = new Random();

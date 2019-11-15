@@ -6,33 +6,40 @@
 package co.com.vector.entidades;
 
 import co.com.interfaces.IConjunto;
-import co.com.listas.entidades.ConjuntoLista;
 import co.com.utilidades.Utilidades;
+import java.util.Arrays;
 
 /**
  *
  * @author sala203
  */
 public class ConjuntoVectorUniversal {
-    
-    private static ConjuntoLista universal;
-        
+
+    private static ConjuntoVector universal;
+
     private ConjuntoVectorUniversal() {
     }
-    
+
     public static IConjunto obtenerUniversal() {
         if (universal == null) {
-            universal = new ConjuntoLista();
-            for (int i = 0; i < Utilidades.TAMANO_CONJUNTO; i++) universal.agregar(Utilidades.generarNumeroRandom());
+            Integer[] vec = new Integer[Utilidades.TAMANO_CONJUNTO];
+            universal = new ConjuntoVector(vec);
+            for (int i = 0; i < Utilidades.TAMANO_CONJUNTO; i++) {
+                int dato;
+                boolean pertenece = false;
+                do {
+                    dato = Utilidades.generarNumeroRandom();
+                } while (universal.pertenece(dato));
+                vec[i] = (dato);
+            }
+            mostrarUniversal();
         }
         return universal;
     }
 
     public static String mostrarUniversal() {
         obtenerUniversal();
-        return "[" + universal.mostrar() +"]";
+        return universal.toString();
     }
-    
-    
-    
+
 }

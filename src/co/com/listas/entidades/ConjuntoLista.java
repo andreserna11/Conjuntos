@@ -6,6 +6,7 @@
 package co.com.listas.entidades;
 
 import co.com.interfaces.IConjunto;
+import co.com.vector.entidades.ConjuntoVectorUniversal;
 
 /**
  *
@@ -13,14 +14,6 @@ import co.com.interfaces.IConjunto;
  */
 public class ConjuntoLista implements IConjunto {
 
-    private static ConjuntoLista universal = new ConjuntoLista();
-    
-    static {
-        System.out.println("Universal:");
-        for (int i = 1; i <= 20; i++) universal.getLista().insertarNodo(i);
-        universal.mostrar();
-    }
-    
     private Lista lista;
 
     public ConjuntoLista() {
@@ -37,32 +30,23 @@ public class ConjuntoLista implements IConjunto {
 
     @Override
     public Boolean pertenece(Integer dato) {
-        if (this.lista.buscarDato(dato) != null) {
-            System.out.println("el elemento " + dato + " pertenece al conjunto");
-            return true;
-        } else {
-            System.out.println("el elemento " + dato + " no pertenece al conjunto");            
-        }
-        return false;
+        return this.lista.buscarDato(dato) != null;
     }
 
     @Override
-    public Boolean subconjunto(IConjunto conjunto) {
+    public Boolean subconjunto(IConjunto conjuntoB) {
         boolean esSubconjunto = true;
-        if (!this.validarTipoConjunto(conjunto)) {
-            esSubconjunto = false;
-        } else {
-            ConjuntoLista subconjunto = (ConjuntoLista) conjunto;
-            Lista listaSubconjunto = subconjunto.getLista();
-            Nodo aux = listaSubconjunto.getPadre();
-            if (listaSubconjunto.getCantidadElementos() <= this.lista.getCantidadElementos()) {
-                while (aux != null && esSubconjunto) {
-                    esSubconjunto = this.lista.buscarDato(aux.getDato()) != null;
-                    aux = aux.getLigaSiguiente();
+        int tamanoConjuntoB = conjuntoB.obtenerTamano();
+        if (tamanoConjuntoB <= this.lista.getCantidadElementos()) {
+            for (int i = 0; i < tamanoConjuntoB; i++) {
+                int dato = conjuntoB.obtenerDato(i);
+                if (!this.pertenece(dato)) {
+                    esSubconjunto = false;
+                    break;
                 }
-            } else {
-                esSubconjunto = false;
             }
+        } else {
+            esSubconjunto = false;
         }
         return esSubconjunto;
     }
@@ -73,12 +57,12 @@ public class ConjuntoLista implements IConjunto {
     }
 
     @Override
-    public IConjunto union(IConjunto conjunto) {
+    public IConjunto union(IConjunto conjuntoB) {
         ConjuntoLista conjuntoUnion = null;
-        if (validarTipoConjunto(conjunto) && this.universal.subconjunto(conjunto)) {
+        if (ConjuntoVectorUniversal.obtenerUniversal().subconjunto(conjuntoB)) {
             conjuntoUnion = new ConjuntoLista();
             unirConjuntos(conjuntoUnion, this);
-            unirConjuntos(conjuntoUnion, (ConjuntoLista) conjunto);
+            unirConjuntos(conjuntoUnion, conjuntoB);
         } else {
             System.out.println("no se puede realizar la operación");
         }
@@ -86,15 +70,14 @@ public class ConjuntoLista implements IConjunto {
     }
 
     @Override
-    public IConjunto interseccion(IConjunto conjunto) {
+    public IConjunto interseccion(IConjunto conjuntoB) {
         ConjuntoLista conjuntoInterseccion = null;
-        if (validarTipoConjunto(conjunto) && this.universal.subconjunto(conjunto)) {
+        if (ConjuntoVectorUniversal.obtenerUniversal().subconjunto(conjuntoB)) {
             conjuntoInterseccion = new ConjuntoLista();
-            Lista listaConjuntoB = ((ConjuntoLista) conjunto).getLista();
             Nodo aux = this.lista.getPadre();
             while (aux != null) {
                 int dato = aux.getDato();
-                if (listaConjuntoB.buscarDato(dato) != null) {
+                if (conjuntoB.pertenece(dato)) {
                     conjuntoInterseccion.agregar(dato);
                 }
                 aux = aux.getLigaSiguiente();
@@ -106,18 +89,17 @@ public class ConjuntoLista implements IConjunto {
     }
 
     @Override
-    public Boolean igualdad(IConjunto conjunto) {
+    public Boolean igualdad(IConjunto conjuntoB) {
         boolean iguales = true;
-        if (validarTipoConjunto(conjunto) && this.universal.subconjunto(conjunto)) {
-            ConjuntoLista conjuntoB = (ConjuntoLista) conjunto;
-            Lista listaConjuntoB = conjuntoB.getLista();
-            if (this.lista.getCantidadElementos() == listaConjuntoB.getCantidadElementos()) {
+        if (ConjuntoVectorUniversal.obtenerUniversal().subconjunto(conjuntoB)) {
+            if (this.obtenerTamano().equals(conjuntoB.obtenerTamano())) {
                 Nodo aux = this.lista.getPadre();
                 while (aux != null && iguales) {
                     int dato = aux.getDato();
-                    iguales = listaConjuntoB.buscarDato(dato) != null;
-                    if (iguales) {
+                    if (conjuntoB.pertenece(dato)) {
                         aux = aux.getLigaSiguiente();
+                    } else {
+                        iguales = false;
                     }
                 }
             } else {
@@ -132,19 +114,19 @@ public class ConjuntoLista implements IConjunto {
     @Override
     public IConjunto complemento() {
         ConjuntoLista conjuntoComplemento = new ConjuntoLista();
-        Lista listaUniversal = universal.getLista();
-        Nodo aux = listaUniversal.getPadre();
-        while (aux != null) {
-            int dato = aux.getDato();
-            if (this.lista.buscarDato(dato) == null) conjuntoComplemento.agregar(dato);
-            aux = aux.getLigaSiguiente();
+        IConjunto conjuntoUniversal = ConjuntoVectorUniversal.obtenerUniversal();
+        for (int i = 0; i < conjuntoUniversal.obtenerTamano(); i++) {
+            int dato = conjuntoUniversal.obtenerDato(i);
+            if (!this.pertenece(dato)) {
+                conjuntoComplemento.agregar(dato);
+            }
         }
         return conjuntoComplemento;
     }
 
     @Override
     public void agregar(Integer dato) {
-        if (this.lista.buscarDato(dato) == null && this.universal.getLista().buscarDato(dato) != null) {
+        if (ConjuntoVectorUniversal.obtenerUniversal().pertenece(dato) && !this.pertenece(dato)) {
             this.lista.insertarNodo(dato);
         } else {
             System.out.println("no se puede agregar el dato");
@@ -162,16 +144,14 @@ public class ConjuntoLista implements IConjunto {
     }
 
     @Override
-    public IConjunto diferencia(IConjunto conjunto) {
+    public IConjunto diferencia(IConjunto conjuntoB) {
         ConjuntoLista conjuntoDiferencia = null;
-        if (validarTipoConjunto(conjunto) && this.universal.subconjunto(conjunto)) {
+        if (ConjuntoVectorUniversal.obtenerUniversal().subconjunto(conjuntoB)) {
             conjuntoDiferencia = new ConjuntoLista();
-            ConjuntoLista conjuntoB = (ConjuntoLista) conjunto;
-            Lista listaConjuntoB = conjuntoB.getLista();
             Nodo aux = this.lista.getPadre();
             while (aux != null) {
                 int dato = aux.getDato();
-                if (listaConjuntoB.buscarDato(dato) == null) {
+                if (!conjuntoB.pertenece(dato)) {
                     conjuntoDiferencia.agregar(dato);
                 }
                 aux = aux.getLigaSiguiente();
@@ -183,13 +163,12 @@ public class ConjuntoLista implements IConjunto {
     }
 
     @Override
-    public IConjunto diferenciaSimetrica(IConjunto conjunto) {
+    public IConjunto diferenciaSimetrica(IConjunto conjuntoB) {
         IConjunto conjuntoDiferencia = null;
-        if (validarTipoConjunto(conjunto) && this.universal.subconjunto(conjunto)) {
-            ConjuntoLista conjuntoB = (ConjuntoLista) conjunto;
-            ConjuntoLista conjutoDiferenciaAB = (ConjuntoLista) this.diferencia(conjuntoB);
-            ConjuntoLista conjutoDiferenciaBA = (ConjuntoLista) conjuntoB.diferencia(this);
-            conjuntoDiferencia = (ConjuntoLista) conjutoDiferenciaAB.union(conjutoDiferenciaBA);
+        if (ConjuntoVectorUniversal.obtenerUniversal().subconjunto(conjuntoB)) {
+            IConjunto conjutoDiferenciaAB = (ConjuntoLista) this.diferencia(conjuntoB);
+            IConjunto conjutoDiferenciaBA = conjuntoB.diferencia(this);
+            conjuntoDiferencia = conjutoDiferenciaAB.union(conjutoDiferenciaBA);
         } else {
             System.out.println("no se puede realizar la operación");
         }
@@ -199,7 +178,7 @@ public class ConjuntoLista implements IConjunto {
     @Override
     public Integer compararDimensionConjuntos(IConjunto conjuntoB) {
         Integer valor = null;
-        if (validarTipoConjunto(conjuntoB) && this.universal.subconjunto(conjuntoB)) {
+        if (ConjuntoVectorUniversal.obtenerUniversal().subconjunto(conjuntoB)) {
             ConjuntoLista conjuntoListaB = (ConjuntoLista) conjuntoB;
             int tamañoConjuntoA = this.lista.getCantidadElementos();
             int tamañoConjuntoB = conjuntoListaB.getLista().getCantidadElementos();
@@ -215,35 +194,33 @@ public class ConjuntoLista implements IConjunto {
         return this.lista.buscarPosicion(dato);
     }
 
-    private boolean validarTipoConjunto(IConjunto conjunto) {
-        boolean esLista = conjunto instanceof ConjuntoLista;
-        if (!esLista) {
-            System.out.println("El conjunto no es una lista");
-        }
-        return esLista;
-    }
-
     public String mostrar() {
         return this.lista.recorrerLista();
     }
 
-    private void unirConjuntos(ConjuntoLista conjuntoUnion, ConjuntoLista conjunto) {
-        Lista listaConjunto = conjunto.getLista();
-        Nodo aux = listaConjunto.getPadre();
-        while (aux != null) {
-            int dato = aux.getDato();
-            conjuntoUnion.agregar(dato);
-            aux = aux.getLigaSiguiente();
+    private void unirConjuntos(IConjunto conjuntoUnion, IConjunto conjunto) {
+        for (int i = 0; i < conjunto.obtenerTamano(); i++) {
+            int dato = conjunto.obtenerDato(i);
+            if (!conjuntoUnion.pertenece(dato)) {
+                conjuntoUnion.agregar(dato);
+            }
         }
     }
 
     @Override
     public Integer obtenerDato(Integer posicion) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return this.lista.obtenerDato(posicion);
     }
 
     @Override
     public Integer obtenerTamano() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return this.lista.getCantidadElementos();
     }
+
+    @Override
+    public String toString() {
+        return "[" + this.mostrar() + "]";
+    }
+    
+    
 }
